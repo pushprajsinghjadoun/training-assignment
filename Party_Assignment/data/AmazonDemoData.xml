@@ -1,0 +1,921 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+<entity-engine-xml>
+    <Party partyId="1000" statusId="PARTY_ENABLED" partyTypeId="CORPORATION"/>
+    <Party partyId="1001" statusId="PARTY_ENABLED" partyTypeId="PERSON"/>
+    <Party partyId="1002" statusId="PARTY_ENABLED" partyTypeId="PERSON"/>
+    <Party partyId="1003" statusId="PARTY_ENABLED" partyTypeId="PERSON"/>
+    <Party partyId="1004" statusId="PARTY_ENABLED" partyTypeId="PERSON"/>
+    <Party partyId="1005" statusId="PARTY_ENABLED" partyTypeId="PERSON"/>
+    <Party partyId="1006" statusId="PARTY_ENABLED" partyTypeId="PERSON"/>
+    <Party partyId="1007" statusId="PARTY_ENABLED" partyTypeId="PERSON"/>
+    <PartyRole partyId="1000" roleTypeId="ORGANIZATION_ROLE"/>
+    <PartyRole partyId="1001" roleTypeId="BUYER"/>
+    <PartyRole partyId="1002" roleTypeId="BUYER"/>
+    <PartyRole partyId="1003" roleTypeId="BUYER"/>
+    <PartyRole partyId="1004" roleTypeId="BUYER"/>
+    <PartyRole partyId="1005" roleTypeId="SALES_REP"/>
+    <PartyRole partyId="1006" roleTypeId="SALES_REP"/>
+    <PartyRole partyId="1007" roleTypeId="SALES_REP"/>
+    <PartyRelationship partyIdFrom="1000" partyIdTo="1001" roleTypeIdFrom="ORGANIZATION_ROLE" roleTypeIdTo="BUYER" fromDate="2023-06-06 16:58:49.590" partyRelationshipTypeId="CUSTOMER_REL"/>
+    <PartyRelationship partyIdFrom="1000" partyIdTo="1002" roleTypeIdFrom="ORGANIZATION_ROLE" roleTypeIdTo="BUYER" fromDate="2023-06-06 16:58:49.590" partyRelationshipTypeId="CUSTOMER_REL"/>
+    <PartyRelationship partyIdFrom="1000" partyIdTo="1003" roleTypeIdFrom="ORGANIZATION_ROLE" roleTypeIdTo="BUYER" fromDate="2023-06-06 16:58:49.590" partyRelationshipTypeId="CUSTOMER_REL"/>
+    <PartyRelationship partyIdFrom="1000" partyIdTo="1004" roleTypeIdFrom="ORGANIZATION_ROLE" roleTypeIdTo="BUYER" fromDate="2023-06-06 16:58:49.590" partyRelationshipTypeId="CUSTOMER_REL"/>
+    <PartyRelationship partyIdFrom="1000" partyIdTo="1005" roleTypeIdFrom="ORGANIZATION_ROLE" roleTypeIdTo="SALES_REP" fromDate="2023-06-06 16:58:49.590" partyRelationshipTypeId="DISTRIBUTION_CHANNEL"/>
+    <PartyRelationship partyIdFrom="1000" partyIdTo="1006" roleTypeIdFrom="ORGANIZATION_ROLE" roleTypeIdTo="SALES_REP" fromDate="2023-06-06 16:58:49.590" partyRelationshipTypeId="DISTRIBUTION_CHANNEL"/>
+    <PartyRelationship partyIdFrom="1000" partyIdTo="1007" roleTypeIdFrom="ORGANIZATION_ROLE" roleTypeIdTo="SALES_REP" fromDate="2023-06-06 16:58:49.590" partyRelationshipTypeId="DISTRIBUTION_CHANNEL"/>
+    <PartyGroup partyId="1000" groupName="Amazon company" annualRevenue="15000"/>
+    <Person partyId="1001" firstName="Pushpraj" middleName="Singh" lastName="Jadoun"/>
+    <Person partyId="1002" firstName="Nikhil" lastName="Patidar"/>
+    <Person partyId="1003" firstName="Prakash" lastName="Jain"/>
+    <Person partyId="1004" firstName="Apurv" lastName="Shukla"/>
+    <Person partyId="1005" firstName="Vishal" middleName="Singh"/>
+    <Person partyId="1006" firstName="Gourav" middleName="Singh" lastName="Rana"/>
+    <Person partyId="1007" firstName="Neel" lastName="Sharma"/>
+    <ContactMech contactMechId="contactMechId_1000" contactMechTypeId="EMAIL_ADDRESS" infoString="email@xyz.com"/>
+    <ContactMech contactMechId="contactMechId_1001" contactMechTypeId="POSTAL_ADDRESS"/>
+    <ContactMech contactMechId="contactMechId_1002" contactMechTypeId="POSTAL_ADDRESS"/>
+    <ContactMech contactMechId="contactMechId_1003" contactMechTypeId="POSTAL_ADDRESS"/>
+    <ContactMech contactMechId="contactMechId_1004" contactMechTypeId="POSTAL_ADDRESS"/>
+    <ContactMech contactMechId="contactMechId_1005" contactMechTypeId="POSTAL_ADDRESS"/>
+    <ContactMech contactMechId="contactMechId_1006" contactMechTypeId="POSTAL_ADDRESS"/>
+    <ContactMech contactMechId="contactMechId_1007" contactMechTypeId="POSTAL_ADDRESS"/>
+    <ContactMech contactMechId="contactMechId_1008" contactMechTypeId="TELECOM_NUMBER"/>
+    <ContactMech contactMechId="contactMechId_1009" contactMechTypeId="TELECOM_NUMBER"/>
+    <ContactMech contactMechId="contactMechId_1010" contactMechTypeId="TELECOM_NUMBER"/>
+    <ContactMech contactMechId="contactMechId_1011" contactMechTypeId="TELECOM_NUMBER"/>
+    <ContactMech contactMechId="contactMechId_1012" contactMechTypeId="TELECOM_NUMBER"/>
+    <ContactMech contactMechId="contactMechId_1013" contactMechTypeId="TELECOM_NUMBER"/>
+    <ContactMech contactMechId="contactMechId_1014" contactMechTypeId="TELECOM_NUMBER"/>
+    <PostalAddress contactMechId="contactMechId_1001" toName="Pushpraj Singh Jadoun" address1="12/18,xyz no 10,abc" houseNumber="12" city="abc" postalCode="1654165"/>
+    <PostalAddress contactMechId="contactMechId_1002" toName="Nikhil" address1="70,xyz no 215,zoo" houseNumber="12" city="abc" postalCode="1654165"/>
+    <PostalAddress contactMechId="contactMechId_1003" toName="Prakash" address1="1/15,xyz no 48,Indore" houseNumber="12" city="abc" postalCode="1654165"/>
+    <PostalAddress contactMechId="contactMechId_1004" toName="Apurv" address1="18,xyz,Ujjain" houseNumber="12" city="abc" postalCode="1654165"/>
+    <PostalAddress contactMechId="contactMechId_1005" toName="Vishal" address1="120,xyz no 10,qwerty" houseNumber="12" city="abc" postalCode="1654165"/>
+    <PostalAddress contactMechId="contactMechId_1006" toName="Gourav" address1="54,xyz no 10,Dhar" houseNumber="12" city="abc" postalCode="1654165"/>
+    <PostalAddress contactMechId="contactMechId_1007" toName="Neel" address1="845,abc no 10,xyz" houseNumber="12" city="abc" postalCode="1654165"/>
+    <TelecomNumber contactMechId="contactMechId_1008" countryCode="+91" contactNumber="45446454654"/>
+    <TelecomNumber contactMechId="contactMechId_1009" countryCode="+91" contactNumber="45445754485"/>
+    <TelecomNumber contactMechId="contactMechId_1010" countryCode="+91" contactNumber="45445746425"/>
+    <TelecomNumber contactMechId="contactMechId_1011" countryCode="+91" contactNumber="96248924295"/>
+    <TelecomNumber contactMechId="contactMechId_1012" countryCode="+91" contactNumber="96248148484"/>
+    <TelecomNumber contactMechId="contactMechId_1013" countryCode="+91" contactNumber="97123456645"/>
+    <TelecomNumber contactMechId="contactMechId_1014" countryCode="+91" contactNumber="99995448454"/>
+    <PartyContactMechPurpose partyId="1000" contactMechId="contactMechId_1000" contactMechPurposeTypeId="PRIMARY_EMAIL" fromDate="2023-06-06 16:58:49.590"/>
+    <PartyContactMechPurpose partyId="1001" contactMechId="contactMechId_1001" contactMechPurposeTypeId="SHIPPING_LOCATION" fromDate="2023-06-06 16:58:49.590"/>
+    <PartyContactMechPurpose partyId="1002" contactMechId="contactMechId_1002" contactMechPurposeTypeId="SHIPPING_LOCATION" fromDate="2023-06-06 16:58:49.590"/>
+    <PartyContactMechPurpose partyId="1003" contactMechId="contactMechId_1003" contactMechPurposeTypeId="SHIPPING_LOCATION" fromDate="2023-06-06 16:58:49.590"/>
+    <PartyContactMechPurpose partyId="1004" contactMechId="contactMechId_1004" contactMechPurposeTypeId="SHIPPING_LOCATION" fromDate="2023-06-06 16:58:49.590"/>
+    <PartyContactMechPurpose partyId="1005" contactMechId="contactMechId_1005" contactMechPurposeTypeId="SHIP_ORIG_LOCATION" fromDate="2023-06-06 16:58:49.590"/>
+    <PartyContactMechPurpose partyId="1006" contactMechId="contactMechId_1006" contactMechPurposeTypeId="SHIP_ORIG_LOCATION" fromDate="2023-06-06 16:58:49.590"/>
+    <PartyContactMechPurpose partyId="1007" contactMechId="contactMechId_1007" contactMechPurposeTypeId="SHIP_ORIG_LOCATION" fromDate="2023-06-06 16:58:49.590"/>
+    <PartyContactMechPurpose partyId="1001" contactMechId="contactMechId_1008" contactMechPurposeTypeId="PHONE_MOBILE" fromDate="2023-06-06 16:58:49.590"/>
+    <PartyContactMechPurpose partyId="1002" contactMechId="contactMechId_1009" contactMechPurposeTypeId="PHONE_MOBILE" fromDate="2023-06-06 16:58:49.590"/>
+    <PartyContactMechPurpose partyId="1003" contactMechId="contactMechId_1010" contactMechPurposeTypeId="PHONE_MOBILE" fromDate="2023-06-06 16:58:49.590"/>
+    <PartyContactMechPurpose partyId="1004" contactMechId="contactMechId_1011" contactMechPurposeTypeId="PHONE_MOBILE" fromDate="2023-06-06 16:58:49.590"/>
+    <PartyContactMechPurpose partyId="1005" contactMechId="contactMechId_1012" contactMechPurposeTypeId="PHONE_MOBILE" fromDate="2023-06-06 16:58:49.590"/>
+    <PartyContactMechPurpose partyId="1006" contactMechId="contactMechId_1013" contactMechPurposeTypeId="PHONE_MOBILE" fromDate="2023-06-06 16:58:49.590"/>
+    <PartyContactMechPurpose partyId="1007" contactMechId="contactMechId_1014" contactMechPurposeTypeId="PHONE_MOBILE" fromDate="2023-06-06 16:58:49.590"/>
+
+
+
+
+    <OfbizDemo ofbizDemoId="SAMPLE_DEMO_1" ofbizDemoTypeId="INTERNAL" firstName="Sample First 1" lastName="Sample Last 1" comments="This is test comment for first record."/>
+    <OfbizDemo ofbizDemoId="SAMPLE_DEMO_2" ofbizDemoTypeId="INTERNAL" firstName="Sample First 2" lastName="Sample last 2" comments="This is test comment for second record."/>
+    <OfbizDemo ofbizDemoId="SAMPLE_DEMO_3" ofbizDemoTypeId="EXTERNAL" firstName="Sample First 3" lastName="Sample last 3" comments="This is test comment for third record."/>
+    <OfbizDemo ofbizDemoId="SAMPLE_DEMO_4" ofbizDemoTypeId="EXTERNAL" firstName="Sample First 4" lastName="Sample last 4" comments="This is test comment for fourth record."/>
+
+    <OfbizDemoType ofbizDemoTypeId="INTERNAL" description="Internal Demo - Office"/>
+    <OfbizDemoType ofbizDemoTypeId="EXTERNAL" description="External Demo - On Site"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--    PRODUCT ASSIGNMENT-->
+
+<!--    PRODUCT STORE-->
+    <ProductStore productStoreId="11000" storeName="Pushpraj Electronics" payToPartyId="1000" daysToCancelNonPay="30" prorateShipping="Y"/>
+    <ProductStore productStoreId="11001" storeName="Computer Point Plus" payToPartyId="1000" daysToCancelNonPay="30" prorateShipping="Y"/>
+    <ProductStore productStoreId="11002" storeName="Shree computers" payToPartyId="1000" daysToCancelNonPay="30" prorateShipping="Y"/>
+    <ProductStore productStoreId="11003" storeName="Hp world" payToPartyId="1000" daysToCancelNonPay="20" prorateShipping="Y"/>
+    <ProductStore productStoreId="11004" storeName="Excel computers" payToPartyId="1000" daysToCancelNonPay="0" prorateShipping="Y"/>
+
+    <ProductStoreGroup productStoreGroupId="12000" productStoreGroupName="Not applicable" description="This is a group of Laptop product store" />
+
+    <ProductStoreGroupMember productStoreId="11000" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductStoreGroupMember productStoreId="11001" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductStoreGroupMember productStoreId="11002" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductStoreGroupMember productStoreId="11003" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductStoreGroupMember productStoreId="11004" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590"/>
+
+    <ProductStoreGroupRole productStoreGroupId="12000" partyId="1000" roleTypeId="ORGANIZATION_ROLE"/>
+
+
+
+<!--    PRODUCT CATALOG-->
+    <ProdCatalog prodCatalogId="13000" catalogName="Gaming Laptops"/>
+    <ProdCatalog prodCatalogId="13001" catalogName="Business Laptops"/>
+    <ProdCatalog prodCatalogId="13002" catalogName="Budget Laptops"/>
+
+<!--    PRODUCT CATEGORY-->
+<!--    For catalog 1-->
+    <ProductCategory productCategoryTypeId="CATALOG_CATEGORY" productCategoryId="14000" categoryName="Company: Dell"/>
+    <ProductCategory productCategoryTypeId="CATALOG_CATEGORY" productCategoryId="14001" categoryName="Company: ASUS"/>
+    <ProductCategory productCategoryTypeId="CATALOG_CATEGORY" productCategoryId="14002" categoryName="Company: Razer"/>
+    <ProductCategory productCategoryTypeId="CATALOG_CATEGORY" productCategoryId="14003" categoryName="Price Range: $1000 - $1500"/>
+    <ProductCategory productCategoryTypeId="CATALOG_CATEGORY" productCategoryId="14004" categoryName="Price Range: $500 - $1000"/>
+    <ProductCategory productCategoryTypeId="CATALOG_CATEGORY" productCategoryId="14005" categoryName="Price Range: Below $500"/>
+
+<!--    For catalog 2-->
+    <ProductCategory productCategoryTypeId="CATALOG_CATEGORY" productCategoryId="14006" categoryName="Company: Dell"/>
+    <ProductCategory productCategoryTypeId="CATALOG_CATEGORY" productCategoryId="14007" categoryName="Company: Lenovo"/>
+    <ProductCategory productCategoryTypeId="CATALOG_CATEGORY" productCategoryId="14008" categoryName="Company: HP"/>
+    <ProductCategory productCategoryTypeId="CATALOG_CATEGORY" productCategoryId="14009" categoryName="Price Range: $1000 - $1500"/>
+    <ProductCategory productCategoryTypeId="CATALOG_CATEGORY" productCategoryId="14010" categoryName="Price Range: $500 - $1000"/>
+    <ProductCategory productCategoryTypeId="CATALOG_CATEGORY" productCategoryId="14011" categoryName="Price Range: Below $500"/>
+<!--    For catalog 3-->
+    <ProductCategory productCategoryTypeId="CATALOG_CATEGORY" productCategoryId="14012" categoryName="Company: Dell"/>
+    <ProductCategory productCategoryTypeId="CATALOG_CATEGORY" productCategoryId="14013" categoryName="Company: Lenovo"/>
+    <ProductCategory productCategoryTypeId="CATALOG_CATEGORY" productCategoryId="14014" categoryName="Company: Acer"/>
+    <ProductCategory productCategoryTypeId="CATALOG_CATEGORY" productCategoryId="14015" categoryName="Price Range: $1000 - $1500"/>
+    <ProductCategory productCategoryTypeId="CATALOG_CATEGORY" productCategoryId="14016" categoryName="Price Range: $500 - $1000"/>
+    <ProductCategory productCategoryTypeId="CATALOG_CATEGORY" productCategoryId="14017" categoryName="Price Range: Below $500"/>
+
+    <ProductCategory productCategoryId="14018" categoryName="Laptop Brands"/>
+    <ProductCategory productCategoryId="14019" categoryName="Price Range"/>
+
+    <ProductCategoryRollup productCategoryId="14000" parentProductCategoryId="14018" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductCategoryRollup productCategoryId="14001" parentProductCategoryId="14018" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductCategoryRollup productCategoryId="14002" parentProductCategoryId="14018" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductCategoryRollup productCategoryId="14003" parentProductCategoryId="14019" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductCategoryRollup productCategoryId="14004" parentProductCategoryId="14019" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductCategoryRollup productCategoryId="14005" parentProductCategoryId="14019" fromDate="2023-06-06 16:58:49.590"/>
+
+    <ProductCategoryRollup productCategoryId="14006" parentProductCategoryId="14018" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductCategoryRollup productCategoryId="14007" parentProductCategoryId="14018" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductCategoryRollup productCategoryId="14008" parentProductCategoryId="14018" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductCategoryRollup productCategoryId="14009" parentProductCategoryId="14019" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductCategoryRollup productCategoryId="14010" parentProductCategoryId="14019" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductCategoryRollup productCategoryId="14011" parentProductCategoryId="14019" fromDate="2023-06-06 16:58:49.590"/>
+
+    <ProductCategoryRollup productCategoryId="14012" parentProductCategoryId="14018" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductCategoryRollup productCategoryId="14013" parentProductCategoryId="14018" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductCategoryRollup productCategoryId="14014" parentProductCategoryId="14018" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductCategoryRollup productCategoryId="14015" parentProductCategoryId="14019" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductCategoryRollup productCategoryId="14016" parentProductCategoryId="14019" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductCategoryRollup productCategoryId="14017" parentProductCategoryId="14019" fromDate="2023-06-06 16:58:49.590"/>
+
+    <ProdCatalogCategory prodCatalogId="13000" productCategoryId="14000" prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProdCatalogCategory prodCatalogId="13000" productCategoryId="14001" prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProdCatalogCategory prodCatalogId="13000" productCategoryId="14002" prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProdCatalogCategory prodCatalogId="13001" productCategoryId="14006" prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProdCatalogCategory prodCatalogId="13001" productCategoryId="14007" prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProdCatalogCategory prodCatalogId="13001" productCategoryId="14008" prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProdCatalogCategory prodCatalogId="13002" productCategoryId="14012" prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProdCatalogCategory prodCatalogId="13002" productCategoryId="14013" prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProdCatalogCategory prodCatalogId="13002" productCategoryId="14014" prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProdCatalogCategory prodCatalogId="13000" productCategoryId="14003" prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProdCatalogCategory prodCatalogId="13000" productCategoryId="14004" prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProdCatalogCategory prodCatalogId="13000" productCategoryId="14005" prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProdCatalogCategory prodCatalogId="13001" productCategoryId="14009" prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProdCatalogCategory prodCatalogId="13001" productCategoryId="14010" prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProdCatalogCategory prodCatalogId="13001" productCategoryId="14011" prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProdCatalogCategory prodCatalogId="13002" productCategoryId="14015" prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProdCatalogCategory prodCatalogId="13002" productCategoryId="14016" prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProdCatalogCategory prodCatalogId="13002" productCategoryId="14017" prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT" fromDate="2023-06-06 16:58:49.590"/>
+
+
+    <ProductStoreCatalog productStoreId="11000" prodCatalogId="13000" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductStoreCatalog productStoreId="11000" prodCatalogId="13001" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductStoreCatalog productStoreId="11000" prodCatalogId="13002" fromDate="2023-06-06 16:58:49.590"/>
+
+    <ProductStoreCatalog productStoreId="11001" prodCatalogId="13000" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductStoreCatalog productStoreId="11001" prodCatalogId="13001" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductStoreCatalog productStoreId="11001" prodCatalogId="13002" fromDate="2023-06-06 16:58:49.590"/>
+
+    <ProductStoreCatalog productStoreId="11002" prodCatalogId="13000" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductStoreCatalog productStoreId="11002" prodCatalogId="13001" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductStoreCatalog productStoreId="11002" prodCatalogId="13002" fromDate="2023-06-06 16:58:49.590"/>
+
+<!--    Product 1-->
+
+    <Product productId="15000" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="Y" isVariant="N" productName="Alienware M17" brandName="Dell"/>
+    <Product productId="15001" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Alienware M17" brandName="Dell" description="Alienware M17, Black, Intel Core i7, 16 GB"/>
+    <Product productId="15002" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Alienware M17" brandName="Dell" description="Alienware M17, Black, Intel Core i7, 32 GB"/>
+    <Product productId="15003" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Alienware M17" brandName="Dell" description="Alienware M17, Black, Ryzen 7, 16 GB"/>
+    <Product productId="15004" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Alienware M17" brandName="Dell" description="Alienware M17, Black, Ryzen 7, 32 GB"/>
+    <Product productId="15005" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Alienware M17" brandName="Dell" description="Alienware M17, Red, Intel Core i7, 16 GB"/>
+    <Product productId="15006" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Alienware M17" brandName="Dell" description="Alienware M17, Red, Intel Core i7, 32 GB"/>
+    <Product productId="15007" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Alienware M17" brandName="Dell" description="Alienware M17, Red, Ryzen 7, 16 GB"/>
+    <Product productId="15008" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Alienware M17" brandName="Dell" description="Alienware M17, Red, Ryzen 7, 32 GB"/>
+
+<!--    Product 2-->
+
+    <Product productId="15010" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="Y" isVariant="N" productName="ROG Zephyrus G14" brandName="ASUS"/>
+    <Product productId="15011" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="ROG Zephyrus G14" brandName="ASUS" description="ROG Zephyrus G14, Black, Intel Core i7, 16 GB"/>
+    <Product productId="15012" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="ROG Zephyrus G14" brandName="ASUS" description="ROG Zephyrus G14, Black, Intel Core i7, 32 GB"/>
+    <Product productId="15013" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="ROG Zephyrus G14" brandName="ASUS" description="ROG Zephyrus G14, Black, Ryzen 7, 16 GB"/>
+    <Product productId="15014" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="ROG Zephyrus G14" brandName="ASUS" description="ROG Zephyrus G14, Black, Ryzen 7, 32 GB"/>
+    <Product productId="15015" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="ROG Zephyrus G14" brandName="ASUS" description="ROG Zephyrus G14, Red, Intel Core i7, 16 GB"/>
+    <Product productId="15016" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="ROG Zephyrus G14" brandName="ASUS" description="ROG Zephyrus G14, Red, Intel Core i7, 32 GB"/>
+    <Product productId="15017" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="ROG Zephyrus G14" brandName="ASUS" description="ROG Zephyrus G14, Red, Ryzen 7, 16 GB"/>
+    <Product productId="15018" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="ROG Zephyrus G14" brandName="ASUS" description="ROG Zephyrus G14, Red, Ryzen 7, 32 GB"/>
+
+    <!--    Product 3-->
+
+    <Product productId="15020" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="Y" isVariant="N" productName="Blade 15 Advanced" brandName="Razer"/>
+    <Product productId="15021" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Blade 15 Advanced" brandName="Razer" description="Blade 15 Advanced, Black, Intel Core i7, 16 GB"/>
+    <Product productId="15022" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Blade 15 Advanced" brandName="Razer" description="Blade 15 Advanced, Black, Intel Core i7, 32 GB"/>
+    <Product productId="15023" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Blade 15 Advanced" brandName="Razer" description="Blade 15 Advanced, Black, Ryzen 7, 16 GB"/>
+    <Product productId="15024" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Blade 15 Advanced" brandName="Razer" description="Blade 15 Advanced, Black, Ryzen 7, 32 GB"/>
+    <Product productId="15025" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Blade 15 Advanced" brandName="Razer" description="Blade 15 Advanced, Red, Intel Core i7, 16 GB"/>
+    <Product productId="15026" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Blade 15 Advanced" brandName="Razer" description="Blade 15 Advanced, Red, Intel Core i7, 32 GB"/>
+    <Product productId="15027" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Blade 15 Advanced" brandName="Razer" description="Blade 15 Advanced, Red, Ryzen 7, 16 GB"/>
+    <Product productId="15028" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Blade 15 Advanced" brandName="Razer" description="Blade 15 Advanced, Red, Ryzen 7, 32 GB"/>
+
+    <!--    Product 4-->
+
+    <Product productId="15030" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="Y" isVariant="N" productName="ThinkPad X1 Carbon" brandName="Lenovo"/>
+    <Product productId="15031" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="ThinkPad X1 Carbon" brandName="Lenovo" description="ThinkPad X1 Carbon, Black, Intel Core i7, 16 GB"/>
+    <Product productId="15032" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="ThinkPad X1 Carbon" brandName="Lenovo" description="ThinkPad X1 Carbon, Black, Intel Core i7, 32 GB"/>
+    <Product productId="15033" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="ThinkPad X1 Carbon" brandName="Lenovo" description="ThinkPad X1 Carbon, Black, Ryzen 7, 16 GB"/>
+    <Product productId="15034" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="ThinkPad X1 Carbon" brandName="Lenovo" description="ThinkPad X1 Carbon, Black, Ryzen 7, 32 GB"/>
+    <Product productId="15035" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="ThinkPad X1 Carbon" brandName="Lenovo" description="ThinkPad X1 Carbon, Red, Intel Core i7, 16 GB"/>
+    <Product productId="15036" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="ThinkPad X1 Carbon" brandName="Lenovo" description="ThinkPad X1 Carbon, Red, Intel Core i7, 32 GB"/>
+    <Product productId="15037" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="ThinkPad X1 Carbon" brandName="Lenovo" description="ThinkPad X1 Carbon, Red, Ryzen 7, 16 GB"/>
+    <Product productId="15038" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="ThinkPad X1 Carbon" brandName="Lenovo" description="ThinkPad X1 Carbon, Red, Ryzen 7, 32 GB"/>
+
+    <!--    Product 5-->
+
+    <Product productId="15040" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="Y" isVariant="N" productName="EliteBook 840 G8" brandName="HP"/>
+    <Product productId="15041" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="EliteBook 840 G8" brandName="HP" description="EliteBook 840 G8, Black, Intel Core i7, 16 GB"/>
+    <Product productId="15042" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="EliteBook 840 G8" brandName="HP" description="EliteBook 840 G8, Black, Intel Core i7, 32 GB"/>
+    <Product productId="15043" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="EliteBook 840 G8" brandName="HP" description="EliteBook 840 G8, Black, Ryzen 7, 16 GB"/>
+    <Product productId="15044" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="EliteBook 840 G8" brandName="HP" description="EliteBook 840 G8, Black, Ryzen 7, 32 GB"/>
+    <Product productId="15045" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="EliteBook 840 G8" brandName="HP" description="EliteBook 840 G8, Red, Intel Core i7, 16 GB"/>
+    <Product productId="15046" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="EliteBook 840 G8" brandName="HP" description="EliteBook 840 G8, Red, Intel Core i7, 32 GB"/>
+    <Product productId="15047" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="EliteBook 840 G8" brandName="HP" description="EliteBook 840 G8, Red, Ryzen 7, 16 GB"/>
+    <Product productId="15048" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="EliteBook 840 G8" brandName="HP" description="EliteBook 840 G8, Red, Ryzen 7, 32 GB"/>
+
+    <!--    Product 6-->
+
+    <Product productId="15050" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="Y" isVariant="N" productName="Latitude 7320" brandName="Dell"/>
+    <Product productId="15051" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Latitude 7320" brandName="Dell" description="Latitude 7320, Black, Intel Core i7, 16 GB"/>
+    <Product productId="15052" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Latitude 7320" brandName="Dell" description="Latitude 7320, Black, Intel Core i7, 32 GB"/>
+    <Product productId="15053" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Latitude 7320" brandName="Dell" description="Latitude 7320, Black, Ryzen 7, 16 GB"/>
+    <Product productId="15054" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Latitude 7320" brandName="Dell" description="Latitude 7320, Black, Ryzen 7, 32 GB"/>
+    <Product productId="15055" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Latitude 7320" brandName="Dell" description="Latitude 7320, Red, Intel Core i7, 16 GB"/>
+    <Product productId="15056" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Latitude 7320" brandName="Dell" description="Latitude 7320, Red, Intel Core i7, 32 GB"/>
+    <Product productId="15057" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Latitude 7320" brandName="Dell" description="Latitude 7320, Red, Ryzen 7, 16 GB"/>
+    <Product productId="15058" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Latitude 7320" brandName="Dell" description="Latitude 7320, Red, Ryzen 7, 32 GB"/>
+
+    <!--    Product 7-->
+
+    <Product productId="15060" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="Y" isVariant="N" productName="Pavilion 15" brandName="HP"/>
+    <Product productId="15061" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Pavilion 15" brandName="HP" description="Pavilion 15, Black, Intel Core i7, 16 GB"/>
+    <Product productId="15062" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Pavilion 15" brandName="HP" description="Pavilion 15, Black, Intel Core i7, 32 GB"/>
+    <Product productId="15063" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Pavilion 15" brandName="HP" description="Pavilion 15, Black, Ryzen 7, 16 GB"/>
+    <Product productId="15064" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Pavilion 15" brandName="HP" description="Pavilion 15, Black, Ryzen 7, 32 GB"/>
+    <Product productId="15065" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Pavilion 15" brandName="HP" description="Pavilion 15, Red, Intel Core i7, 16 GB"/>
+    <Product productId="15066" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Pavilion 15" brandName="HP" description="Pavilion 15, Red, Intel Core i7, 32 GB"/>
+    <Product productId="15067" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Pavilion 15" brandName="HP" description="Pavilion 15, Red, Ryzen 7, 16 GB"/>
+    <Product productId="15068" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Pavilion 15" brandName="HP" description="Pavilion 15, Red, Ryzen 7, 32 GB"/>
+
+    <!--    Product 8-->
+
+    <Product productId="15070" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="Y" isVariant="N" productName="IdeaPad 3" brandName="Lenovo"/>
+    <Product productId="15071" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="IdeaPad 3" brandName="Lenovo" description="IdeaPad 3, Black, Intel Core i7, 16 GB"/>
+    <Product productId="15072" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="IdeaPad 3" brandName="Lenovo" description="IdeaPad 3, Black, Intel Core i7, 32 GB"/>
+    <Product productId="15073" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="IdeaPad 3" brandName="Lenovo" description="IdeaPad 3, Black, Ryzen 7, 16 GB"/>
+    <Product productId="15074" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="IdeaPad 3" brandName="Lenovo" description="IdeaPad 3, Black, Ryzen 7, 32 GB"/>
+    <Product productId="15075" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="IdeaPad 3" brandName="Lenovo" description="IdeaPad 3, Red, Intel Core i7, 16 GB"/>
+    <Product productId="15076" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="IdeaPad 3" brandName="Lenovo" description="IdeaPad 3, Red, Intel Core i7, 32 GB"/>
+    <Product productId="15077" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="IdeaPad 3" brandName="Lenovo" description="IdeaPad 3, Red, Ryzen 7, 16 GB"/>
+    <Product productId="15078" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="IdeaPad 3" brandName="Lenovo" description="IdeaPad 3, Red, Ryzen 7, 32 GB"/>
+
+    <!--    Product 9-->
+
+    <Product productId="15080" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="Y" isVariant="N" productName="Aspire 5" brandName="Acer"/>
+    <Product productId="15081" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Aspire 5" brandName="Acer" description="Aspire 5, Black, Intel Core i7, 16 GB"/>
+    <Product productId="15082" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Aspire 5" brandName="Acer" description="Aspire 5, Black, Intel Core i7, 32 GB"/>
+    <Product productId="15083" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Aspire 5" brandName="Acer" description="Aspire 5, Black, Ryzen 7, 16 GB"/>
+    <Product productId="15084" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Aspire 5" brandName="Acer" description="Aspire 5, Black, Ryzen 7, 32 GB"/>
+    <Product productId="15085" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Aspire 5" brandName="Acer" description="Aspire 5, Red, Intel Core i7, 16 GB"/>
+    <Product productId="15086" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Aspire 5" brandName="Acer" description="Aspire 5, Red, Intel Core i7, 32 GB"/>
+    <Product productId="15087" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Aspire 5" brandName="Acer" description="Aspire 5, Red, Ryzen 7, 16 GB"/>
+    <Product productId="15088" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Aspire 5" brandName="Acer" description="Aspire 5, Red, Ryzen 7, 32 GB"/>
+
+    <!--    Product 10-->
+
+    <Product productId="15090" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="Y" isVariant="N" productName="Microsoft Surface Laptop 4" brandName="Microsoft"/>
+    <Product productId="15091" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Microsoft Surface Laptop 4" brandName="Microsoft" description="Microsoft Surface Laptop 4, Black, Intel Core i7, 16 GB"/>
+    <Product productId="15092" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Microsoft Surface Laptop 4" brandName="Microsoft" description="Microsoft Surface Laptop 4, Black, Intel Core i7, 32 GB"/>
+    <Product productId="15093" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Microsoft Surface Laptop 4" brandName="Microsoft" description="Microsoft Surface Laptop 4, Black, Ryzen 7, 16 GB"/>
+    <Product productId="15094" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Microsoft Surface Laptop 4" brandName="Microsoft" description="Microsoft Surface Laptop 4, Black, Ryzen 7, 32 GB"/>
+    <Product productId="15095" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Microsoft Surface Laptop 4" brandName="Microsoft " description="Microsoft Surface Laptop 4, Red, Intel Core i7, 16 GB"/>
+    <Product productId="15096" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Microsoft Surface Laptop 4" brandName="Microsoft " description="Microsoft Surface Laptop 4, Red, Intel Core i7, 32 GB"/>
+    <Product productId="15097" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Microsoft Surface Laptop 4" brandName="Microsoft " description="Microsoft Surface Laptop 4, Ryzen 7, 16 GB"/>
+    <Product productId="15098" productTypeId="FINISHED_GOOD" releaseDate="2023-07-07 16:58:49.590" introductionDate="2023-08-07 16:58:49.590" quantityIncluded="1" returnable="Y" taxable="Y" chargeShipping="Y" isVirtual="N" isVariant="Y" productName="Microsoft Surface Laptop 4" brandName="Microsoft " description="Microsoft Surface Laptop 4, Red, Ryzen 7, 32 GB"/>
+
+<!--    Product Association -->
+    <ProductAssoc productId="15000" productIdTo="15001" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15000" productIdTo="15002" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15000" productIdTo="15003" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15000" productIdTo="15004" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15000" productIdTo="15005" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15000" productIdTo="15006" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15000" productIdTo="15007" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15000" productIdTo="15008" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+
+    <ProductAssoc productId="15010" productIdTo="15011" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15010" productIdTo="15012" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15010" productIdTo="15013" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15010" productIdTo="15014" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15010" productIdTo="15015" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15010" productIdTo="15016" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15010" productIdTo="15017" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15010" productIdTo="15018" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+
+    <ProductAssoc productId="15020" productIdTo="15021" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15020" productIdTo="15022" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15020" productIdTo="15023" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15020" productIdTo="15024" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15020" productIdTo="15025" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15020" productIdTo="15026" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15020" productIdTo="15027" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15020" productIdTo="15028" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+
+    <ProductAssoc productId="15030" productIdTo="15031" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15030" productIdTo="15032" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15030" productIdTo="15033" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15030" productIdTo="15034" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15030" productIdTo="15035" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15030" productIdTo="15036" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15030" productIdTo="15037" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15030" productIdTo="15038" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+
+    <ProductAssoc productId="15040" productIdTo="15041" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15040" productIdTo="15042" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15040" productIdTo="15043" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15040" productIdTo="15044" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15040" productIdTo="15045" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15040" productIdTo="15046" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15040" productIdTo="15047" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15040" productIdTo="15048" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+
+    <ProductAssoc productId="15050" productIdTo="15051" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15050" productIdTo="15052" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15050" productIdTo="15053" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15050" productIdTo="15054" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15050" productIdTo="15055" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15050" productIdTo="15056" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15050" productIdTo="15057" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15050" productIdTo="15058" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+
+    <ProductAssoc productId="15060" productIdTo="15061" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15060" productIdTo="15062" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15060" productIdTo="15063" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15060" productIdTo="15064" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15060" productIdTo="15065" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15060" productIdTo="15066" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15060" productIdTo="15067" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15060" productIdTo="15068" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+
+    <ProductAssoc productId="15070" productIdTo="15071" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15070" productIdTo="15072" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15070" productIdTo="15073" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15070" productIdTo="15074" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15070" productIdTo="15075" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15070" productIdTo="15076" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15070" productIdTo="15077" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15070" productIdTo="15078" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+
+    <ProductAssoc productId="15080" productIdTo="15081" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15080" productIdTo="15082" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15080" productIdTo="15083" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15080" productIdTo="15084" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15080" productIdTo="15085" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15080" productIdTo="15086" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15080" productIdTo="15087" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15080" productIdTo="15088" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+
+    <ProductAssoc productId="15090" productIdTo="15091" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15090" productIdTo="15092" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15090" productIdTo="15093" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15090" productIdTo="15094" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15090" productIdTo="15095" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15090" productIdTo="15096" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15090" productIdTo="15097" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+    <ProductAssoc productId="15090" productIdTo="15098" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-06-06 16:58:49.590"/>
+
+<!--       Product Price-->
+    <ProductPrice productId="15001" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15002" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+    <ProductPrice productId="15003" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15004" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+    <ProductPrice productId="15005" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15006" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+    <ProductPrice productId="15007" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15008" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+
+    <ProductPrice productId="15011" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="1899" priceWithoutTax="1899" taxAmount="350"/>
+    <ProductPrice productId="15012" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="1999" priceWithoutTax="1999" taxAmount="350"/>
+    <ProductPrice productId="15013" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="1899" priceWithoutTax="1899" taxAmount="350"/>
+    <ProductPrice productId="15014" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="1999" priceWithoutTax="1999" taxAmount="350"/>
+    <ProductPrice productId="15015" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="1899" priceWithoutTax="1899" taxAmount="350"/>
+    <ProductPrice productId="15016" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="1999" priceWithoutTax="1999" taxAmount="350"/>
+    <ProductPrice productId="15017" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="1899" priceWithoutTax="1899" taxAmount="350"/>
+    <ProductPrice productId="15018" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="1999" priceWithoutTax="1999" taxAmount="350"/>
+
+    <ProductPrice productId="15021" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15022" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+    <ProductPrice productId="15023" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15024" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+    <ProductPrice productId="15025" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15026" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+    <ProductPrice productId="15027" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15028" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+
+    <ProductPrice productId="15031" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="1299" priceWithoutTax="1299" taxAmount="350"/>
+    <ProductPrice productId="15032" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="1399" priceWithoutTax="1399" taxAmount="350"/>
+    <ProductPrice productId="15033" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="1399" priceWithoutTax="1299" taxAmount="350"/>
+    <ProductPrice productId="15034" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="1399" taxAmount="350"/>
+    <ProductPrice productId="15035" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="1299" taxAmount="350"/>
+    <ProductPrice productId="15036" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="1399" taxAmount="350"/>
+    <ProductPrice productId="15037" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="1299" taxAmount="350"/>
+    <ProductPrice productId="15038" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="1399" taxAmount="350"/>
+
+    <ProductPrice productId="15041" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15042" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+    <ProductPrice productId="15043" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15044" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+    <ProductPrice productId="15045" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15046" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+    <ProductPrice productId="15047" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15048" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+
+    <ProductPrice productId="15051" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15052" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+    <ProductPrice productId="15053" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15054" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+    <ProductPrice productId="15055" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15056" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+    <ProductPrice productId="15057" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15058" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+
+    <ProductPrice productId="15061" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15062" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+    <ProductPrice productId="15063" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15064" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+    <ProductPrice productId="15065" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15066" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+    <ProductPrice productId="15067" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15068" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+
+    <ProductPrice productId="15071" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15072" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+    <ProductPrice productId="15073" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15074" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+    <ProductPrice productId="15075" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15076" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+    <ProductPrice productId="15077" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15078" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+
+    <ProductPrice productId="15081" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15082" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+    <ProductPrice productId="15083" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15084" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+    <ProductPrice productId="15085" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15086" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+    <ProductPrice productId="15087" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15088" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+
+    <ProductPrice productId="15091" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15092" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+    <ProductPrice productId="15093" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15094" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+    <ProductPrice productId="15095" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15096" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+    <ProductPrice productId="15097" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2499" priceWithTax="2499" priceWithoutTax="2149" taxAmount="350"/>
+    <ProductPrice productId="15098" productPriceTypeId="LIST_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="12000" fromDate="2023-06-06 16:58:49.590" price="2599" priceWithTax="2599" priceWithoutTax="2249" taxAmount="350"/>
+
+<!--    Product Feature-->
+    <ProductFeature productFeatureId="16000" productFeatureTypeId="COLOR" description="BLACK"/>
+    <ProductFeature productFeatureId="16001" productFeatureTypeId="COLOR" description="WHITE"/>
+    <ProductFeature productFeatureId="16002" productFeatureTypeId="HARDWARE_FEATURE" description="Intel Core i7"/>
+    <ProductFeature productFeatureId="16003" productFeatureTypeId="HARDWARE_FEATURE" description="AMD Ryzen 7"/>
+    <ProductFeature productFeatureId="16004" productFeatureTypeId="OTHER_FEATURE" description="16 GB"/>
+    <ProductFeature productFeatureId="16005" productFeatureTypeId="OTHER_FEATURE" description="32 GB"/>
+
+<!--    Product Feature Applicability -->
+    <ProductFeatureAppl productId="15001" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15001" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15001" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15002" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15002" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15002" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15003" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15003" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+    <ProductFeatureAppl productId="15003" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15004" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+    <ProductFeatureAppl productId="15004" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+    <ProductFeatureAppl productId="15004" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15005" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+    <ProductFeatureAppl productId="15005" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+    <ProductFeatureAppl productId="15005" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15006" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+    <ProductFeatureAppl productId="15006" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+    <ProductFeatureAppl productId="15006" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15007" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+    <ProductFeatureAppl productId="15007" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+    <ProductFeatureAppl productId="15007" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15008" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+    <ProductFeatureAppl productId="15008" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+    <ProductFeatureAppl productId="15008" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+
+    <ProductFeatureAppl productId="15011" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15011" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15011" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15012" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15012" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15012" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15013" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15013" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+    <ProductFeatureAppl productId="15013" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15014" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+    <ProductFeatureAppl productId="15014" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+    <ProductFeatureAppl productId="15014" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15015" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+    <ProductFeatureAppl productId="15015" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+    <ProductFeatureAppl productId="15015" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15016" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+    <ProductFeatureAppl productId="15016" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+    <ProductFeatureAppl productId="15016" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15017" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+    <ProductFeatureAppl productId="15017" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+    <ProductFeatureAppl productId="15017" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15018" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+    <ProductFeatureAppl productId="15018" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+    <ProductFeatureAppl productId="15018" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+
+
+    <ProductFeatureAppl productId="15021" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15021" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15021" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15022" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15022" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15022" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15023" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15023" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15023" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15024" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15024" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15024" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15025" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15025" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15025" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15026" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15026" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15026" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15027" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15027" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15027" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15028" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15028" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15028" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+
+    <ProductFeatureAppl productId="15031" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15031" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15031" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15032" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15032" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15032" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15033" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15033" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15033" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15034" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15034" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15034" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15035" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15035" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15035" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15036" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15036" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15036" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15037" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15037" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15037" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15038" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15038" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15038" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+
+
+    <ProductFeatureAppl productId="15041" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15041" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15041" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15042" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15042" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15042" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15043" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15043" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15043" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15044" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15044" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15044" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15045" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15045" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15045" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15046" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15046" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15046" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15047" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15047" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15047" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15048" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15048" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15048" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+
+    <ProductFeatureAppl productId="15051" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15051" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15051" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15052" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15052" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15052" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15053" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15053" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15053" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15054" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15054" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15054" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15055" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15055" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15055" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15056" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15056" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15056" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15057" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15057" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15057" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15058" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15058" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15058" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+
+
+    <ProductFeatureAppl productId="15061" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15061" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15061" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15062" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15062" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15062" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15063" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15063" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15063" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15064" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15064" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15064" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15065" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15065" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15065" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15066" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15066" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15066" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15067" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15067" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15067" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15068" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15068" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15068" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+
+
+    <ProductFeatureAppl productId="15071" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15071" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15071" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15072" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15072" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15072" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15073" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15073" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15073" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15074" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15074" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15074" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15075" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15075" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15075" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15076" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15076" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15076" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15077" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15077" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15077" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15078" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15078" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15078" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+
+
+    <ProductFeatureAppl productId="15081" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15081" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15081" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15082" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15082" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15082" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15083" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15083" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15083" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15084" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15084" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15084" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15085" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15085" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15085" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15086" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15086" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15086" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15087" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15087" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15087" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15088" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15088" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15088" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+
+
+    <ProductFeatureAppl productId="15091" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15091" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15091" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15092" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15092" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15092" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15093" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15093" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15093" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15094" productFeatureId="16000" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15094" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15094" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15095" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15095" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15095" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15096" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15096" productFeatureId="16002" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15096" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15097" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15097" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15097" productFeatureId="16004" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+    <ProductFeatureAppl productId="15098" productFeatureId="16001" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="1"/>
+    <ProductFeatureAppl productId="15098" productFeatureId="16003" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="2"/>
+    <ProductFeatureAppl productId="15098" productFeatureId="16005" productFeatureApplTypeId="SELECTABLE_FEATURE" fromDate="2023-06-06 16:58:50.590" sequenceNum="3"/>
+
+
+    <ProductCategoryMember productCategoryId="14000" productId="15000" fromDate="2023-06-06 16:58:50.590"/>
+    <ProductCategoryMember productCategoryId="14001" productId="15010" fromDate="2023-06-06 16:58:50.590"/>
+    <ProductCategoryMember productCategoryId="14002" productId="15020" fromDate="2023-06-06 16:58:50.590"/>
+    <ProductCategoryMember productCategoryId="14003" productId="15000" fromDate="2023-06-06 16:58:50.590"/>
+    <ProductCategoryMember productCategoryId="14004" productId="15010" fromDate="2023-06-06 16:58:50.590"/>
+    <ProductCategoryMember productCategoryId="14005" productId="15020" fromDate="2023-06-06 16:58:50.590"/>
+
+    <ProductCategoryMember productCategoryId="14006" productId="15030" fromDate="2023-06-06 16:58:50.590"/>
+    <ProductCategoryMember productCategoryId="14007" productId="15040" fromDate="2023-06-06 16:58:50.590"/>
+    <ProductCategoryMember productCategoryId="14008" productId="15050" fromDate="2023-06-06 16:58:50.590"/>
+    <ProductCategoryMember productCategoryId="14009" productId="15030" fromDate="2023-06-06 16:58:50.590"/>
+    <ProductCategoryMember productCategoryId="14010" productId="15040" fromDate="2023-06-06 16:58:50.590"/>
+    <ProductCategoryMember productCategoryId="14011" productId="15050" fromDate="2023-06-06 16:58:50.590"/>
+
+
+    <ProductCategoryMember productCategoryId="14012" productId="15060" fromDate="2023-06-06 16:58:50.590"/>
+    <ProductCategoryMember productCategoryId="14013" productId="15070" fromDate="2023-06-06 16:58:50.590"/>
+    <ProductCategoryMember productCategoryId="14014" productId="15080" fromDate="2023-06-06 16:58:50.590"/>
+    <ProductCategoryMember productCategoryId="14015" productId="15060" fromDate="2023-06-06 16:58:50.590"/>
+    <ProductCategoryMember productCategoryId="14016" productId="15070" fromDate="2023-06-06 16:58:50.590"/>
+    <ProductCategoryMember productCategoryId="14017" productId="15090" fromDate="2023-06-06 16:58:50.590"/>
+
+    <Facility facilityId="19000" facilityTypeId="WAREHOUSE" facilityName="Hotwax Warehouse" ownerPartyId="1000"/>
+
+    <ProductStoreFacility productStoreId="11000" facilityId="19000" fromDate="2023-06-06 16:58:50.590"/>
+    <ProductStoreFacility productStoreId="11001" facilityId="19000" fromDate="2023-06-06 16:58:50.590"/>
+    <ProductStoreFacility productStoreId="11002" facilityId="19000" fromDate="2023-06-06 16:58:50.590"/>
+
+    <SupplierProduct productId="15000" partyId="1000" availableFromDate="2023-06-06 16:58:50.590" minimumOrderQuantity="1" currencyUomId="USD"/>
+    <SupplierProduct productId="15010" partyId="1000" availableFromDate="2023-06-06 16:58:50.590" minimumOrderQuantity="1" currencyUomId="USD"/>
+    <SupplierProduct productId="15020" partyId="1000" availableFromDate="2023-06-06 16:58:50.590" minimumOrderQuantity="1" currencyUomId="USD"/>
+    <SupplierProduct productId="15030" partyId="1000" availableFromDate="2023-06-06 16:58:50.590" minimumOrderQuantity="1" currencyUomId="USD"/>
+
+    <SupplierProduct productId="15040" partyId="1000" availableFromDate="2023-06-06 16:58:50.590" minimumOrderQuantity="1" currencyUomId="USD"/>
+    <SupplierProduct productId="15050" partyId="1000" availableFromDate="2023-06-06 16:58:50.590" minimumOrderQuantity="1" currencyUomId="USD"/>
+    <SupplierProduct productId="15060" partyId="1000" availableFromDate="2023-06-06 16:58:50.590" minimumOrderQuantity="1" currencyUomId="USD"/>
+    <SupplierProduct productId="15070" partyId="1000" availableFromDate="2023-06-06 16:58:50.590" minimumOrderQuantity="1" currencyUomId="USD"/>
+    <SupplierProduct productId="15080" partyId="1000" availableFromDate="2023-06-06 16:58:50.590" minimumOrderQuantity="1" currencyUomId="USD"/>
+    <SupplierProduct productId="15090" partyId="1000" availableFromDate="2023-06-06 16:58:50.590" minimumOrderQuantity="1" currencyUomId="USD"/>
+
+
+
+</entity-engine-xml>
