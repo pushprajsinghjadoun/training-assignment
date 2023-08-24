@@ -1,0 +1,109 @@
+
+#viewHeading{
+  text-align: center;
+  background-color: aliceblue;
+  margin-left: 15%;
+  margin-right: 15%;
+  font-weight: 400;
+}
+
+#container-box
+{
+margin-top: 40px;
+}
+.box-heading
+{
+  text-align:center;
+}
+
+.eachRow
+{
+display:flex;
+}
+.eachRow:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+.eachRow:nth-child(even) {
+  background-color: #fffff;
+}
+.edit_btn
+{
+   margin-left:0%
+}
+
+.values
+{
+width:40%;
+margin-top: 2%;
+margin-bottom: 2%;
+}
+.labels
+{
+width:40%;
+font-weight: 600;
+margin-top: 2%;
+margin-bottom: 2%;
+
+}
+.edit_para
+{
+margin-top: 2%;
+margin-bottom: 2%;
+}
+.contactPurposeBox
+{
+display:block;
+}
+
+#relationship
+{
+margin-top:30px;
+}
+
+.person_button
+{
+border: 1px solid cornflowerblue;
+background-color: azure;
+margin-left: 0.5%;
+}
+
+.person_delete_button
+{
+border: 1px solid #ed6464;
+background-color: #fff0f0;
+margin-left: 0.5%;
+}
+
+#addNewPerson
+{
+border: 1px solid #2cff00;
+background-color: #f5ffeb;
+margin-left: 0.5%;
+margin-bottom:5px;
+}
+
+.mainClass{
+display: flex;
+}
+
+.inputLeftMargin
+{
+margin-left:5%;
+}
+.form-group{
+    width: 47%;
+}
+
+.form-margin-bottom
+{
+margin-bottom:20px;
+}
+.AddPersonH3
+{
+    text-align: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    background-color: aliceblue;
+    font-weight: 400;
+    font-size: 1.6rem;
+}
