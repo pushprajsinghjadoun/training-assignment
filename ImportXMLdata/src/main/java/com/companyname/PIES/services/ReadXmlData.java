@@ -146,6 +146,7 @@ public class ReadXmlData {
                                     productDescriptionValueMap.put("languageCode",languageCode);
                                     productDescriptionValueMap.put("maintenanceType",maintenanceType);
                                     productDescriptionValueMap.put("descriptionCode",descriptionCode);
+                                    productDescription.add(productDescriptionValueMap);
                                 }
                                 else if(descriptionCode.equals("DES"))
                                 {
@@ -154,6 +155,7 @@ public class ReadXmlData {
                                     productDescriptionValueMap.put("maintenanceType",maintenanceType);
                                     productDescriptionValueMap.put("descriptionCode",descriptionCode);
                                     mainProductValue.put("description",descriptionText);
+                                    productDescription.add(productDescriptionValueMap);
                                 }else
                                 {
                                     productDescriptionValueMap.put("description",descriptionText);
@@ -200,6 +202,7 @@ public class ReadXmlData {
                                 break;
                             case  "PartTerminologyID":
                                 String partTerminologyID = reader.getElementText();
+                                mainProductValue.put("partTerminologyID",partTerminologyID);
                                 break;
                             case  "ExtendedProductInformation":
                                 String expiCode = reader.getAttributeValue(null, "EXPICode");
@@ -414,13 +417,12 @@ public class ReadXmlData {
                                         mainProductValue.clear();
                                         System.out.println("Product Updated.");
                                     } else { // if product do not exist then insert data
-
-                                        // Insert Product details
-                                        InsertProductDetails insertProductDetailsObject = new InsertProductDetails(mainProductValue);
-                                        insertProductDetailsObject.insertProductDetails();
                                         // Create product category
                                         CreateProductCategory createProductCategory = new CreateProductCategory(productCategoryMap);
                                         createProductCategory.createProductCategory();
+                                        // Insert Product details
+                                        InsertProductDetails insertProductDetailsObject = new InsertProductDetails(mainProductValue);
+                                        insertProductDetailsObject.insertProductDetails();
                                         // Insert Product Content details
                                         InsertProductContent insertProductContentObject = new InsertProductContent(productDescription,productExtendedInformation, (String) mainProductValue.get("partNumber"));
                                         insertProductContentObject.insertProductContent();
@@ -433,6 +435,9 @@ public class ReadXmlData {
                                         // Insert DigitalFileInformation
                                         InsertDigitalFileInformation insertDigitalFileInformationObject = new InsertDigitalFileInformation(productDigitalFileInformationList,(String) mainProductValue.get("partNumber"));
                                         insertDigitalFileInformationObject.insertDigitalInfo();
+
+                                        AddProductToCategory addProductToCategory = new AddProductToCategory((String) mainProductValue.get("partNumber"),(String) mainProductValue.get("aaiapProductCategoryCode"));
+                                        addProductToCategory.addProductToCategory();
 
                                         // Clear List and Map to prepare for the next set of item data
                                         mainProductValue.clear();
@@ -480,7 +485,7 @@ public class ReadXmlData {
                 // Prepare data for product entity
                 inputParameters.put("productId", mainProductValue.get("partNumber"));
                 inputParameters.put("productName", mainProductValue.get("productName"));
-                inputParameters.put("internalName", mainProductValue.get("partNumber"));
+                inputParameters.put("internalName", mainProductValue.get("partTerminologyID"));
                 inputParameters.put("brandName", mainProductValue.get("BrandLabel"));
                 inputParameters.put("productTypeId", "GOOD");
                 inputParameters.put("releaseDate", mainProductValue.get("availableDate"));
@@ -567,7 +572,6 @@ public class ReadXmlData {
                 descriptionInput.put("contentId", contentId);
                 descriptionInput.put("contentName", descriptionMap.get("descriptionCode"));
                 descriptionInput.put("localeString", descriptionMap.get("languageCode"));
-                descriptionInput.put("description", descriptionMap.get("description"));
                 descriptionInput.put("serviceName", descriptionMap.get("maintenanceType"));
                 descriptionInput.put("userLogin", permUserLogin);
 
@@ -579,8 +583,6 @@ public class ReadXmlData {
                 Map<String, Object> resultDataResource = dispatcher.runSync("createElectronicText", productDataResource);
                 if (ServiceUtil.isSuccess(resultDataResource)) {
                     // Process the result as needed
-                    System.out.println(resultDataResource);
-                    System.out.println(resultDataResource.get("dataResourceId"));
                     descriptionInput.put("dataResourceId",resultDataResource.get("dataResourceId"));
                     // Call service to create content
                     Map<String, Object> resultContent = dispatcher.runSync("createContent", descriptionInput);
@@ -640,7 +642,7 @@ public class ReadXmlData {
                     }
                     productContentInput.put("contentId", contentId);
                     productContentInput.put("productId", productId);
-                    productContentInput.put("productContentTypeId", "LONG_DESCRIPTION");
+                    productContentInput.put("productContentTypeId", "PRODUCT_EXTENDED_IN");
                     productContentInput.put("userLogin", permUserLogin);
                     // Call service to create product content
                     Map<String, Object> resultProductContent = dispatcher.runSync("createProductContent", productContentInput);
@@ -802,7 +804,7 @@ public class ReadXmlData {
                             productDataResource.put("userLogin", permUserLogin);
                             productDataResource.put("objectInfo",digitalValue.get("uri"));
                             productDataResource.put("localeString",digitalValue.get("filePath"));
-                            // productContentInput Map to stored value in a map so that this values passed to
+                            // productContentInput Map to stored value in a map so that this values passed to createContent
                             productContentInput.put("userLogin", permUserLogin);
                             productContentInput.put("contentId",contentId);
                             productContentInput.put("contentName",digitalValue.get("assetType"));
@@ -810,7 +812,7 @@ public class ReadXmlData {
                             productContentInput.put("localeString",digitalValue.get("fileType"));
                             productContentInput.put("description",digitalValue.get("FileName"));
 
-
+                            // Call the service createElectronicText to insert values in dataResource
                             Map<String, Object> resultProductDataResource= dispatcher.runSync("createElectronicText", productDataResource);
                             if (ServiceUtil.isSuccess(resultProductDataResource)) {
                                 System.out.println(resultProductDataResource);
@@ -1013,7 +1015,7 @@ public class ReadXmlData {
                 // inputParameters map to store the product related values
                 inputParameters.put("productId", mainProductValue.get("partNumber"));
                 inputParameters.put("productName", mainProductValue.get("productName"));
-                inputParameters.put("internalName",mainProductValue.get("partNumber"));
+                inputParameters.put("internalName",mainProductValue.get("partTerminologyID"));
                 inputParameters.put("brandName", mainProductValue.get("BrandLabel"));
                 inputParameters.put("productTypeId", "GOOD");
                 inputParameters.put("releaseDate", mainProductValue.get("availableDate"));
@@ -1045,6 +1047,22 @@ public class ReadXmlData {
                 } else {
                     System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(result));
                 }
+                Map<String, Object> goodIdentificationInputParameters = new HashMap<>();
+                // prepare good identification values to update
+                goodIdentificationInputParameters.put("productId", mainProductValue.get("partNumber"));
+                goodIdentificationInputParameters.put("goodIdentificationTypeId","OTHER_ID");
+                goodIdentificationInputParameters.put("idValue",mainProductValue.get("ItemLevelGTIN"));
+                goodIdentificationInputParameters.put("userLogin", permUserLogin);
+
+                // Call the service to update good identification
+                Map<String, Object> goodIdentificationResult = dispatcher.runSync("updateGoodIdentification", goodIdentificationInputParameters);
+
+                // Check the result of the service call
+                if (ServiceUtil.isSuccess(goodIdentificationResult)) {
+                    System.out.println(goodIdentificationResult);
+                } else {
+                    System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(goodIdentificationResult));
+                }
 
             }
             catch (Exception e) {
@@ -1074,21 +1092,41 @@ public class ReadXmlData {
                 GenericValue permUserLogin = EntityQuery.use(delegator).from("UserLogin").where("userLoginId", "system").queryOne();
                 // prepare product attributes values
                 for (Map<String,String> productAttributeMap : productAttribute) {
-                    Map<String, Object> productAttributeInput = new HashMap<>();
-                    productAttributeInput.put("productId", productId);
-                    productAttributeInput.put("attrName", productAttributeMap.get("attributeID"));
-                    productAttributeInput.put("attrValue", productAttributeMap.get("maintenanceTypeProductAttributes"));
-                    productAttributeInput.put("attrType", productAttributeMap.get("padbAttribute"));
-                    productAttributeInput.put("attrDescription", productAttributeMap.get("productAttributeValue"));
-                    productAttributeInput.put("userLogin", permUserLogin);
-                    // Call service to update product attributes
-                    Map<String, Object> resultProductAttribute = dispatcher.runSync("updateProductAttribute", productAttributeInput);
-                    if (ServiceUtil.isSuccess(resultProductAttribute)) {
-                        // Process the result as needed
-                        System.out.println(resultProductAttribute);
-                    } else {
-                        System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultProductAttribute));
+                    EntityCondition conditionToGetProductAttributesWithProductId = EntityCondition.makeCondition(
+                            EntityCondition.makeCondition("productId", EntityOperator.EQUALS, productId),
+                            EntityOperator.AND,
+                            EntityCondition.makeCondition("attrName", EntityOperator.EQUALS, productAttributeMap.get("attributeID"))
+                    );
+                    // Query ProductAttribute entities to retrieve values based on the given condition
+                    GenericValue productAttributeValueForEachProductAttributeMap  = EntityQuery.use(delegator).from("ProductAttribute").where(conditionToGetProductAttributesWithProductId).queryOne();
+                    // Check if productAttribute already exist, if exist then update the value of product attribute.
+                    if(productAttributeValueForEachProductAttributeMap!=null)
+                    {
+                        Map<String, Object> productAttributeInput = new HashMap<>();
+                        productAttributeInput.put("productId", productId);
+                        productAttributeInput.put("attrName", productAttributeMap.get("attributeID"));
+                        productAttributeInput.put("attrValue", productAttributeMap.get("maintenanceTypeProductAttributes"));
+                        productAttributeInput.put("attrType", productAttributeMap.get("padbAttribute"));
+                        productAttributeInput.put("attrDescription", productAttributeMap.get("productAttributeValue"));
+                        productAttributeInput.put("userLogin", permUserLogin);
+                        // Call service to update product attributes
+                        Map<String, Object> resultProductAttribute = dispatcher.runSync("updateProductAttribute", productAttributeInput);
+                        if (ServiceUtil.isSuccess(resultProductAttribute)) {
+                            // Process the result as needed
+                            System.out.println(resultProductAttribute);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultProductAttribute));
+                        }
+                    }else // If product Attributes does not exist then create new product attribute
+                    {
+                        // List to store productAttributeMap
+                        List<Map<String,String>> productAttributesList = new ArrayList<>();
+                        productAttributesList.add(productAttributeMap);
+                        // Insert the product attributes values via creating object of InsertProductAttributes and calling method
+                        InsertProductAttributes insertProductAttributes = new InsertProductAttributes(productAttributesList,productId);
+                        insertProductAttributes.InsertProductAttributes();
                     }
+
                 }
             }catch (Exception e) {
                 System.out.println("Error calling service: " + e.getMessage());
@@ -1105,7 +1143,7 @@ public class ReadXmlData {
         private String productId;
 
         // Constructor to initialize product content data and product ID
-        UpdateProductContent(List<Map<String,String>> productDescription, List<Map<String,String>> productExtendedInformation, String productId)
+        UpdateProductContent(List<Map<String,String>> productDescription, List<Map<String,String>> productExtendedInformation,String productId)
         {
             this.productDescription = productDescription;
             this.productExtendedInformation = productExtendedInformation;
@@ -1120,66 +1158,111 @@ public class ReadXmlData {
                 LocalDispatcher dispatcher = ServiceContainer.getLocalDispatcher("default", delegator);
                 GenericValue permUserLogin = EntityQuery.use(delegator).from("UserLogin").where("userLoginId", "system").queryOne();
                 Map<String, Object> descriptionInput = new HashMap<>();
+
+                // Condition to find the content id in which product id is equal to item product id and productContentTypeId is equal to DESCRIPTION
+                EntityCondition conditionToFindContentIdForDescription = EntityCondition.makeCondition(
+                        EntityCondition.makeCondition("productId", EntityOperator.EQUALS, productId),
+                        EntityOperator.AND,
+                        EntityCondition.makeCondition("productContentTypeId", EntityOperator.EQUALS, "DESCRIPTION")
+                );
+                // Query ProductContent entities to retrieve contentIds based on the given condition
+                List<GenericValue> contentIds = EntityQuery.use(delegator).from("ProductContent").where(conditionToFindContentIdForDescription).select("contentId").queryList();
+                // List to store the contentId's
+                List<String> contentIdList = new ArrayList<>();
+                Map<String,String> descriptionCodeAndContentId = new HashMap<>();
+                Map<String,String> descriptionCodeAndDataSourceId = new HashMap<>();
+                // Traverse to each content Id
+                for (GenericValue eachContentId : contentIds)
+                {
+                    contentIdList.add((String) eachContentId.get("contentId"));
+                }
+                // Create a condition to find data resources with matching contentId and contentName
+                EntityCondition conditionToFindDataResourceFormContentId = EntityCondition.makeCondition(
+                        EntityCondition.makeCondition("contentId", EntityOperator.IN, contentIdList)
+                );
+                // Query for a specific content using the condition
+                List<GenericValue> contentValues = EntityQuery.use(delegator).from("Content").where(conditionToFindDataResourceFormContentId).queryList();
+
+                for(GenericValue contentValue: contentValues)
+                {
+                    descriptionCodeAndContentId.put((String) contentValue.get("contentName"),(String) contentValue.get("contentId"));
+                    descriptionCodeAndDataSourceId.put((String) contentValue.get("contentName"),(String) contentValue.get("dataResourceId"));
+                }
                 // Loop through each description and insert content
                 for (Map<String,String> descriptionMap : productDescription) {
-                    Map<String, Object> productContentInput = new HashMap<>();
-                    Map<String,Object> productDataResource = new HashMap<>();
                     // Prepare content description values to update
                     descriptionInput.put("contentName", descriptionMap.get("descriptionCode"));
                     descriptionInput.put("localeString", descriptionMap.get("languageCode"));
-                    descriptionInput.put("description", descriptionMap.get("description"));
                     descriptionInput.put("serviceName", descriptionMap.get("maintenanceType"));
                     descriptionInput.put("userLogin", permUserLogin);
-
-                    // Condition to find the content id in which product id is equal to item product id and productContentTypeId is equal to DESCRIPTION
-                    EntityCondition conditionToFindContentIdForDescription = EntityCondition.makeCondition(
-                            EntityCondition.makeCondition("productId", EntityOperator.EQUALS, productId),
-                            EntityOperator.AND,
-                            EntityCondition.makeCondition("productContentTypeId", EntityOperator.EQUALS, "DESCRIPTION")
-                    );
-                    // Query ProductContent entities to retrieve contentIds based on the given condition
-                    List<GenericValue> dataResources = EntityQuery.use(delegator).from("ProductContent").where(conditionToFindContentIdForDescription).select("contentId").queryList();
-                    // List to store the contentId's
-                    List<String> contentIdList = new ArrayList<>();
-                    // Traverse to each content Id
-                    for (GenericValue dataResource : dataResources) {
-                        // add content id in a contentIdList list
-                        contentIdList.add(dataResource.getString("contentId"));
-                        // Create a condition to find data resources with matching contentId and contentName
-                        EntityCondition conditionToFindDataResourceFormContentId = EntityCondition.makeCondition(
-                                EntityCondition.makeCondition("contentId", EntityOperator.IN, contentIdList),
-                                EntityOperator.AND,
-                                EntityCondition.makeCondition("contentName", EntityOperator.EQUALS, descriptionMap.get("descriptionCode"))
-                        );
-                        // Query for a specific content using the condition
-                        GenericValue exactContentId = EntityQuery.use(delegator).from("Content").where(conditionToFindDataResourceFormContentId).queryOne();
-                        if (exactContentId != null) {
-                            // store contentId in a map
-                            descriptionInput.put("contentId",exactContentId.get("contentId"));
-                            // Update the product description content
-                            Map<String, Object> resultUpdateProductDescriptionContent = dispatcher.runSync("updateContent", descriptionInput);
-                            if (ServiceUtil.isSuccess(resultUpdateProductDescriptionContent)) {
-                                // Process the result as needed
-                                System.out.println(resultUpdateProductDescriptionContent);
-                            } else {
-                                System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateProductDescriptionContent));
-                            }
-                            // Prepare and update electronic text input
-                            Map<String,Object> updateElectronicTextInput = new HashMap<>();
-                            updateElectronicTextInput.put("userLogin", permUserLogin);
-                            updateElectronicTextInput.put("textData",descriptionMap.get("description"));
-                            updateElectronicTextInput.put("dataResourceId",exactContentId.get("dataResourceId"));
-                            // Update the electronic text in which product description stored.
-                            Map<String, Object> resultUpdateProductDescription = dispatcher.runSync("updateElectronicText", updateElectronicTextInput);
-                            if (ServiceUtil.isSuccess(resultUpdateProductDescription)) {
-                                // Process the result as needed
-                                System.out.println(resultUpdateProductDescription);
-                            } else {
-                                System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateProductDescription));
-                            }
+                    // If product description exist then update the product description
+                    if (descriptionCodeAndContentId.get(descriptionMap.get("descriptionCode")) != null && descriptionCodeAndDataSourceId.get(descriptionMap.get("descriptionCode"))!=null) {
+                        // store contentId and descriptionCode in a map
+                        descriptionInput.put("contentId",descriptionCodeAndContentId.get(descriptionMap.get("descriptionCode")));
+                        // Update the product description content
+                        Map<String, Object> resultUpdateProductDescriptionContent = dispatcher.runSync("updateContent", descriptionInput);
+                        if (ServiceUtil.isSuccess(resultUpdateProductDescriptionContent)) {
+                            // Process the result as needed
+                            System.out.println(resultUpdateProductDescriptionContent);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateProductDescriptionContent));
                         }
+                        // Prepare and update electronic text input
+                        Map<String,Object> updateElectronicTextInput = new HashMap<>();
+                        updateElectronicTextInput.put("userLogin", permUserLogin);
+                        updateElectronicTextInput.put("textData",descriptionMap.get("description"));
+                        updateElectronicTextInput.put("dataResourceId",descriptionCodeAndDataSourceId.get(descriptionMap.get("descriptionCode")));
+                        // Update the electronic text in which product description stored.
+                        Map<String, Object> resultUpdateProductDescription = dispatcher.runSync("updateElectronicText", updateElectronicTextInput);
+                        if (ServiceUtil.isSuccess(resultUpdateProductDescription)) {
+                            // Process the result as needed
+                            System.out.println(resultUpdateProductDescription);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateProductDescription));
+                        }
+                    }else // If product description does not exist then update it.
+                    {
+                        // List to store the value of product description in list
+                        List<Map<String,String>> productDescriptionList = new ArrayList<>();
+                        List<Map<String,String>> productExtendedList = new ArrayList<>();
+                        // InsertProductContent object to insert product description
+                        InsertProductContent insertProductContent = new InsertProductContent(productDescriptionList,productExtendedList,productId);
+                        insertProductContent.insertProductContent();
                     }
+
                 }
+
+                // Create a condition to find ProductContent entities with the given productId and productContentTypeId
+                EntityCondition conditionToFindContentIdForExtendedProductInformation = EntityCondition.makeCondition(
+                        EntityCondition.makeCondition("productId", EntityOperator.EQUALS, productId),
+                        EntityOperator.AND,
+                        EntityCondition.makeCondition("productContentTypeId", EntityOperator.EQUALS, "PRODUCT_EXTENDED_IN")
+                );
+                // Query ProductContent entities to retrieve contentIds based on the given condition
+                List<GenericValue> contentIdsForExtendedProductInformation = EntityQuery.use(delegator).from("ProductContent").where(conditionToFindContentIdForExtendedProductInformation).select("contentId").queryList();
+                // List to store the contentId's
+                List<String> contentIdListForExtendedProductInformation = new ArrayList<>();
+                Map<String,String> extendedProductInformationEXPICodeAndContentId = new HashMap<>();
+                Map<String,String> extendedProductInformationEXPICodeAndDataSourceId = new HashMap<>();
+                // Traverse to each content Id
+                for (GenericValue eachContentId : contentIdsForExtendedProductInformation)
+                {
+                    contentIdListForExtendedProductInformation.add((String) eachContentId.get("contentId"));
+                }
+                // Create a condition to find data resources with matching contentId and contentName
+                EntityCondition conditionToFindDataResourceFromContentId = EntityCondition.makeCondition(
+                        EntityCondition.makeCondition("contentId", EntityOperator.IN, contentIdListForExtendedProductInformation)
+                );
+                // Query for a specific content using the condition
+                List<GenericValue> extendedProductInformationContentValues = EntityQuery.use(delegator).from("Content").where(conditionToFindDataResourceFromContentId).queryList();
+                // Traverse to each content value in a extendedProductInformationContentValues
+                for(GenericValue contentValue: extendedProductInformationContentValues)
+                {
+                    // Put contentId and dataResourceId with key contentName
+                    extendedProductInformationEXPICodeAndContentId.put((String) contentValue.get("contentName"),(String) contentValue.get("contentId"));
+                    extendedProductInformationEXPICodeAndDataSourceId.put((String) contentValue.get("contentName"),(String) contentValue.get("dataResourceId"));
+                }
+
             // Loop through each product extended information and update content
             for ( Map<String,String> productExtendedInformationMap: productExtendedInformation) {
                 Map<String, Object> productExtendedInformationInput = new HashMap<>();
@@ -1189,56 +1272,43 @@ public class ReadXmlData {
                 productExtendedInformationInput.put("localeString", productExtendedInformationMap.get("extendedProductLanguageCode"));
                 productExtendedInformationInput.put("serviceName", productExtendedInformationMap.get("maintenanceTypeExtendedProduct"));
                 productExtendedInformationInput.put("userLogin", permUserLogin);
-
-                // Create a condition to find ProductContent entities with the given productId and productContentTypeId
-                EntityCondition conditionToFindContentIdForDescription = EntityCondition.makeCondition(
-                        EntityCondition.makeCondition("productId", EntityOperator.EQUALS, productId),
-                        EntityOperator.AND,
-                        EntityCondition.makeCondition("productContentTypeId", EntityOperator.EQUALS, "LONG_DESCRIPTION")
-                );
-                // Query ProductContent entities to retrieve distinct contentIds based on the condition
-                List<GenericValue> dataResources = EntityQuery.use(delegator).from("ProductContent").where(conditionToFindContentIdForDescription).select("contentId").distinct().queryList();
-                // List to store content Id's
-                List<String> contentIdList = new ArrayList<>();
-                // Traverse each contentId in a dataResources
-                for (GenericValue dataResource : dataResources) {
-                    // Add contentId to the list
-                    contentIdList.add(dataResource.getString("contentId"));
-                    // Create a condition to find data resources with matching contentId and contentName
-                    EntityCondition conditionToFindDataResourceFormContentId = EntityCondition.makeCondition(
-                            EntityCondition.makeCondition("contentId", EntityOperator.IN, contentIdList),
-                            EntityOperator.AND,
-                            EntityCondition.makeCondition("contentName", EntityOperator.EQUALS, productExtendedInformationMap.get("expiCode"))
-                    );
-                    // Query for a specific content using the condition
-                    GenericValue exactContentId = EntityQuery.use(delegator).from("Content").where(conditionToFindDataResourceFormContentId).queryOne();
-                    if (exactContentId != null) {
-                        // Put contentId in a productExtendedInformationInput map
-                        productExtendedInformationInput.put("contentId",exactContentId.get("contentId"));
-                        // Update the extended product content
-                        Map<String, Object> resultUpdateProductExtendedContent = dispatcher.runSync("updateContent", productExtendedInformationInput);
-                        if (ServiceUtil.isSuccess(resultUpdateProductExtendedContent)) {
-                            // Process the result as needed
-                            System.out.println(resultUpdateProductExtendedContent);
-                        } else {
-                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateProductExtendedContent));
-                        }
-                        // Prepare and update electronic text input
-                        Map<String,Object> updateElectronicTextInput = new HashMap<>();
-                        updateElectronicTextInput.put("userLogin", permUserLogin);
-                        updateElectronicTextInput.put("textData",productExtendedInformationMap.get("extendedProductInformationValue"));
-                        updateElectronicTextInput.put("dataResourceId",exactContentId.get("dataResourceId"));
-
-                        // Update the electronic text
-                        Map<String, Object> resultUpdateProductExtendedInfoDescription = dispatcher.runSync("updateElectronicText", updateElectronicTextInput);
-                        if (ServiceUtil.isSuccess(resultUpdateProductExtendedInfoDescription)) {
-                            // Process the result as needed
-                            System.out.println(resultUpdateProductExtendedInfoDescription);
-                        } else {
-                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateProductExtendedInfoDescription));
-                        }
-
+                // if product extended information exist then update the value
+                if ( extendedProductInformationEXPICodeAndContentId.get(productExtendedInformationMap.get("expiCode"))!= null  && extendedProductInformationEXPICodeAndDataSourceId.get(productExtendedInformationMap.get("expiCode"))!=null) {
+                    // Put contentId in a productExtendedInformationInput map
+                    productExtendedInformationInput.put("contentId",extendedProductInformationEXPICodeAndContentId.get(productExtendedInformationMap.get("expiCode")));
+                    // Update the extended product content
+                    Map<String, Object> resultUpdateProductExtendedContent = dispatcher.runSync("updateContent", productExtendedInformationInput);
+                    if (ServiceUtil.isSuccess(resultUpdateProductExtendedContent)) {
+                        // Process the result as needed
+                        System.out.println(resultUpdateProductExtendedContent);
+                    } else {
+                        System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateProductExtendedContent));
                     }
+                    // Prepare and update electronic text input
+                    Map<String,Object> updateElectronicTextInput = new HashMap<>();
+                    updateElectronicTextInput.put("userLogin", permUserLogin);
+                    updateElectronicTextInput.put("textData",productExtendedInformationMap.get("extendedProductInformationValue"));
+                    updateElectronicTextInput.put("dataResourceId",extendedProductInformationEXPICodeAndDataSourceId.get(productExtendedInformationMap.get("expiCode")));
+
+                    // Update the electronic text
+                    Map<String, Object> resultUpdateProductExtendedInfoDescription = dispatcher.runSync("updateElectronicText", updateElectronicTextInput);
+                    if (ServiceUtil.isSuccess(resultUpdateProductExtendedInfoDescription)) {
+                        // Process the result as needed
+                        System.out.println(resultUpdateProductExtendedInfoDescription);
+                    } else {
+                        System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateProductExtendedInfoDescription));
+                    }
+
+                }else // If product extended information does not exist then add new product extended information.
+                {
+                    // List to store product description value
+                    List<Map<String,String>> productDescriptionList = new ArrayList<>();
+                    List<Map<String,String>> productExtendedList = new ArrayList<>();
+                    // Add productExtendedInformationMap in a List
+                    productExtendedList.add(productExtendedInformationMap);
+                    // Create InsertProductContent object to insert product extended information
+                    InsertProductContent insertProductContent = new InsertProductContent(productDescriptionList,productExtendedList,productId);
+                    insertProductContent.insertProductContent();
                 }
             }
             }
@@ -1248,7 +1318,7 @@ public class ReadXmlData {
         }
     }
 
-
+    // A private class to update product digital file information
     private static class UpdateDigitalFileInformation
     {
         // Lists to store digital file information and product ID
@@ -1269,182 +1339,202 @@ public class ReadXmlData {
                 LocalDispatcher dispatcher = ServiceContainer.getLocalDispatcher("default", delegator);
                 GenericValue permUserLogin = EntityQuery.use(delegator).from("UserLogin").where("userLoginId", "system").queryOne();
 
-                // Map's to hold the Digital File information data
+                // Map's to hold the Digital File information data for content entity
                 Map<String, Object> productContentInput = new HashMap<>();
-                Map<String, Object> productDataResource = new HashMap<>();
+                // Create a condition to find ProductContent entities with the given productId and productContentTypeId
+                EntityCondition conditionToFindContentIdForDigitalFileInformation = EntityCondition.makeCondition(
+                        EntityCondition.makeCondition("productId", EntityOperator.EQUALS, productId),
+                        EntityOperator.AND,
+                        EntityCondition.makeCondition("productContentTypeId", EntityOperator.EQUALS, "DIGITAL_DOWNLOAD")
+                );
+                // Query ProductContent entities to retrieve contentIds based on the given condition
+                List<GenericValue> digitalFileInformationContentIds = EntityQuery.use(delegator).from("ProductContent").where(conditionToFindContentIdForDigitalFileInformation).select("contentId").distinct().queryList();
+                // List to store contentId
+                List<String> digitalIdList = new ArrayList<>();
+                for (GenericValue digitalFileInformationContentId : digitalFileInformationContentIds)
+                {
+                    digitalIdList.add((String) digitalFileInformationContentId.get("contentId"));
+                }
+                // Create a condition to find file name and data resourceId in a content entities.
+                EntityCondition conditionToFindDigitalFileInformationFormContentId = EntityCondition.makeCondition(
+                        EntityCondition.makeCondition("contentId", EntityOperator.IN, digitalIdList)
+                );
+                // Query Content entities to retrieve contentId and dataResourceId based on the given condition
+                List<GenericValue> contentValueList = EntityQuery.use(delegator).from("Content").where(conditionToFindDigitalFileInformationFormContentId).queryList();
+                // Map to store contentId and a dataResourceId as a value and file name as a key.
+                Map<String,String> mapToStoreContentIdAndFileName = new HashMap<>();
+                Map<String,String> mapToStoreContentIdAndDataResourceId = new HashMap<>();
+                // Traverse contentId list
+                for(GenericValue contentValue : contentValueList)
+                {
+                    // Store value in a map
+                 mapToStoreContentIdAndFileName.put((String) contentValue.get("description"), (String) contentValue.get("contentId"));
+                 mapToStoreContentIdAndDataResourceId.put((String) contentValue.get("description"), (String) contentValue.get("dataResourceId"));
+                }
                 // Traverse Digital file information related values
                 for ( Map<String, String> digitalValue : digitalValues)
                 {
-                    EntityCondition conditionToFindContentIdForDigitalFileInformation = EntityCondition.makeCondition(
-                            EntityCondition.makeCondition("productId", EntityOperator.EQUALS, productId),
-                            EntityOperator.AND,
-                            EntityCondition.makeCondition("productContentTypeId", EntityOperator.EQUALS, "DIGITAL_DOWNLOAD")
-                    );
-                    // Query ProductContent entities to retrieve distinct contentIds based on the given condition
-                    List<GenericValue> digitalFileInformationContentIds = EntityQuery.use(delegator).from("ProductContent").where(conditionToFindContentIdForDigitalFileInformation).select("contentId").distinct().queryList();
-                    // List to store contentId
-                    List<String> digitalIdList = new ArrayList<>();
-                    // Traverse to contentId
-                    for(GenericValue digitalFileInformationContentId : digitalFileInformationContentIds)
+                    // If contentId and dataResourceId found with file name then simply update the value
+                    if(mapToStoreContentIdAndFileName.get(digitalValue.get("FileName"))!=null && mapToStoreContentIdAndDataResourceId.get(digitalValue.get("FileName"))!=null)
                     {
-                        // add contentId to the list
-                        digitalIdList.add(digitalFileInformationContentId.getString("contentId"));
-
-                        EntityCondition conditionToFindDigitalFileInformationFormContentId = EntityCondition.makeCondition(
-                                EntityCondition.makeCondition("contentId", EntityOperator.IN, digitalIdList),
-                                EntityOperator.AND,
-                                EntityCondition.makeCondition("description", EntityOperator.EQUALS, digitalValue.get("FileName"))
-                        );
-                        // Create a condition to find data resources with matching contentId and description
-                        GenericValue exactContentId = EntityQuery.use(delegator).from("Content").where(conditionToFindDigitalFileInformationFormContentId).queryOne();
-                        if (exactContentId != null) {
-                            // Prepare input for updating product content
-                            productContentInput.put("userLogin", permUserLogin);
-                            productContentInput.put("contentId",exactContentId.get("contentId"));
-                            productContentInput.put("contentName",digitalValue.get("assetType"));
-                            productContentInput.put("serviceName",digitalValue.get("maintenanceTypeDigital"));
-                            productContentInput.put("localeString",digitalValue.get("fileType"));
-                            productContentInput.put("description",digitalValue.get("FileName"));
-                            // Prepare input for updating data resource
-                            Map<String, Object> digitalFileDataResourceInput = new HashMap<>();
-                            digitalFileDataResourceInput.put("userLogin", permUserLogin);
-                            digitalFileDataResourceInput.put("objectInfo",digitalValue.get("uri"));
-                            digitalFileDataResourceInput.put("localeString",digitalValue.get("filePath"));
-                            digitalFileDataResourceInput.put("dataResourceId",exactContentId.get("dataResourceId"));
-                            // Update the product content
-                            Map<String, Object> resultUpdateDigitalFileInformationContent = dispatcher.runSync("updateContent", productContentInput);
-                            if (ServiceUtil.isSuccess(resultUpdateDigitalFileInformationContent)) {
-                                // Process the result as needed
-                                System.out.println(resultUpdateDigitalFileInformationContent);
-                            } else {
-                                System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateDigitalFileInformationContent));
-                            }
-                            // Update the data resource
-                            Map<String, Object> resultUpdateDataResource = dispatcher.runSync("updateDataResource", digitalFileDataResourceInput);
-                            if (ServiceUtil.isSuccess(resultUpdateDataResource)) {
-                                // Process the result as needed
-                                System.out.println(resultUpdateDataResource);
-                            } else {
-                                System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateDataResource));
-                            }
-                            // Map to store the values which will be inserted in a ProductAttribute Entity.
-                            Map<String, Object> digitalInfoInputRepresentation = new HashMap<>();
-                            Map<String, Object> digitalInfoInputBackground= new HashMap<>();
-                            Map<String, Object> digitalInfoInputLanguageCode= new HashMap<>();
-                            Map<String, Object> digitalInfoInputResolution= new HashMap<>();
-                            Map<String, Object> digitalInfoInputFileSize= new HashMap<>();
-                            Map<String, Object> digitalInfoInputAssetHeight= new HashMap<>();
-                            Map<String, Object> digitalInfoInputAssetWeight= new HashMap<>();
-                            Map<String, Object> digitalInfoInputAssetID= new HashMap<>();
-                            // dataResourceId from exactContentId.
-                            String dataResourceId = (String) exactContentId.get("dataResourceId");
-                            // Store Representation data which will be store in contentAttribute entity
-                            digitalInfoInputRepresentation.put("userLogin", permUserLogin);
-                            digitalInfoInputRepresentation.put("dataResourceId",dataResourceId);
-                            digitalInfoInputRepresentation.put("attrName","Representation");
-                            digitalInfoInputRepresentation.put("attrValue",digitalValue.get("representation"));
-                            // Store Background data which will be store in contentAttribute entity
-                            digitalInfoInputBackground.put("userLogin", permUserLogin);
-                            digitalInfoInputBackground.put("dataResourceId",dataResourceId);
-                            digitalInfoInputBackground.put("attrName","Background");
-                            digitalInfoInputBackground.put("attrValue",digitalValue.get("background"));
-                            // Store AssetID data which will be store in contentAttribute entity
-                            digitalInfoInputAssetID.put("userLogin", permUserLogin);
-                            digitalInfoInputAssetID.put("dataResourceId",dataResourceId);
-                            digitalInfoInputAssetID.put("attrName","Asset ID");
-                            digitalInfoInputAssetID.put("attrValue",digitalValue.get("assetID"));
-                            // Store LanguageCode data which will be store in contentAttribute entity
-                            digitalInfoInputLanguageCode.put("userLogin", permUserLogin);
-                            digitalInfoInputLanguageCode.put("dataResourceId",dataResourceId);
-                            digitalInfoInputLanguageCode.put("attrValue",digitalValue.get("languageCodeDigital"));
-                            digitalInfoInputLanguageCode.put("attrName","Language Code");
-
-                            // Store Resolution data which will be store in contentAttribute entity
-                            digitalInfoInputResolution.put("userLogin", permUserLogin);
-                            digitalInfoInputResolution.put("dataResourceId",dataResourceId);
-                            digitalInfoInputResolution.put("attrValue",digitalValue.get("resolution"));
-                            digitalInfoInputResolution.put("attrName","Resolution");
-
-                            // Store FileSize data which will be store in contentAttribute entity
-                            digitalInfoInputFileSize.put("userLogin", permUserLogin);
-                            digitalInfoInputFileSize.put("dataResourceId",dataResourceId);
-                            digitalInfoInputFileSize.put("attrValue",digitalValue.get("fileSize"));
-                            digitalInfoInputFileSize.put("attrName","File Size");
-                            // Store AssetHeight data which will be store in contentAttribute entity
-                            digitalInfoInputAssetHeight.put("userLogin", permUserLogin);
-                            digitalInfoInputAssetHeight.put("dataResourceId",dataResourceId);
-                            digitalInfoInputAssetHeight.put("attrValue",digitalValue.get("assetHeight"));
-                            digitalInfoInputAssetHeight.put("attrName","Asset Height");
-                            // Store Asset Width data which will be store in contentAttribute entity
-                            digitalInfoInputAssetWeight.put("userLogin", permUserLogin);
-                            digitalInfoInputAssetWeight.put("dataResourceId",dataResourceId);
-                            digitalInfoInputAssetWeight.put("attrValue",digitalValue.get("assetWidth"));
-                            digitalInfoInputAssetWeight.put("attrName","Asset Weight");
-                            // Update the attribute related to asset weight using the updateDataResourceAttribute service
-                            Map<String, Object> resultUpdateDataResourceAttributeWeight = dispatcher.runSync("updateDataResourceAttribute", digitalInfoInputAssetWeight);
-                            if (ServiceUtil.isSuccess(resultUpdateDataResourceAttributeWeight)) {
-                                // Process the result as needed
-                                System.out.println(resultUpdateDataResourceAttributeWeight);
-                            } else {
-                                System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateDataResourceAttributeWeight));
-                            }
-                            // Update the attribute related to asset height using the updateDataResourceAttribute service
-                            Map<String, Object> resultUpdateDataResourceAttributeHeight = dispatcher.runSync("updateDataResourceAttribute", digitalInfoInputAssetHeight);
-                            if (ServiceUtil.isSuccess(resultUpdateDataResourceAttributeHeight)) {
-                                // Process the result as needed
-                                System.out.println(resultUpdateDataResourceAttributeHeight);
-                            } else {
-                                System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateDataResourceAttributeHeight));
-                            }
-                            // Update the attribute related to asset file size using the updateDataResourceAttribute service
-                            Map<String, Object> resultUpdateDataResourceAttributeFileSize = dispatcher.runSync("updateDataResourceAttribute", digitalInfoInputFileSize);
-                            if (ServiceUtil.isSuccess(resultUpdateDataResourceAttributeFileSize)) {
-                                // Process the result as needed
-                                System.out.println(resultUpdateDataResourceAttributeFileSize);
-                            } else {
-                                System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateDataResourceAttributeFileSize));
-                            }
-                            // Update the attribute related to Resolution using the updateDataResourceAttribute service
-                            Map<String, Object> resultUpdateDataResourceAttributeResolution = dispatcher.runSync("updateDataResourceAttribute", digitalInfoInputResolution);
-                            if (ServiceUtil.isSuccess(resultUpdateDataResourceAttributeResolution)) {
-                                // Process the result as needed
-                                System.out.println(resultUpdateDataResourceAttributeResolution);
-                            } else {
-                                System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateDataResourceAttributeResolution));
-                            }
-                            // Update the attribute related to language code using the updateDataResourceAttribute service
-                            Map<String, Object> resultUpdateDataResourceAttributeLanguageCode = dispatcher.runSync("updateDataResourceAttribute", digitalInfoInputLanguageCode);
-                            if (ServiceUtil.isSuccess(resultUpdateDataResourceAttributeLanguageCode)) {
-                                // Process the result as needed
-                                System.out.println(resultUpdateDataResourceAttributeLanguageCode);
-                            } else {
-                                System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateDataResourceAttributeLanguageCode));
-                            }
-                            // Update the attribute related to AssetID using the updateDataResourceAttribute service
-                            Map<String, Object> resultUpdateDataResourceAttributeAssetID = dispatcher.runSync("updateDataResourceAttribute", digitalInfoInputAssetID);
-                            if (ServiceUtil.isSuccess(resultUpdateDataResourceAttributeAssetID)) {
-                                // Process the result as needed
-                                System.out.println(resultUpdateDataResourceAttributeAssetID);
-                            } else {
-                                System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateDataResourceAttributeAssetID));
-                            }
-                            // Update the attribute related to Background using the updateDataResourceAttribute service
-                            Map<String, Object> resultUpdateDataResourceBackground = dispatcher.runSync("updateDataResourceAttribute", digitalInfoInputBackground);
-                            if (ServiceUtil.isSuccess(resultUpdateDataResourceBackground)) {
-                                // Process the result as needed
-                                System.out.println(resultUpdateDataResourceBackground);
-                            } else {
-                                System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateDataResourceBackground));
-                            }
-                            // Update the attribute related to Representation using the updateDataResourceAttribute service
-                            Map<String, Object> resultUpdateDataResourceAttributeRepresentation = dispatcher.runSync("updateDataResourceAttribute", digitalInfoInputRepresentation);
-                            if (ServiceUtil.isSuccess(resultUpdateDataResourceAttributeRepresentation)) {
-                                // Process the result as needed
-                                System.out.println(resultUpdateDataResourceAttributeRepresentation);
-                            } else {
-                                System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateDataResourceAttributeRepresentation));
-                            }
+                        // Prepare input for updating product content
+                        productContentInput.put("userLogin", permUserLogin);
+                        productContentInput.put("contentId",mapToStoreContentIdAndFileName.get(digitalValue.get("FileName")));
+                        productContentInput.put("contentName",digitalValue.get("assetType"));
+                        productContentInput.put("serviceName",digitalValue.get("maintenanceTypeDigital"));
+                        productContentInput.put("localeString",digitalValue.get("fileType"));
+                        productContentInput.put("description",digitalValue.get("FileName"));
+                        // Prepare input for updating data resource
+                        Map<String, Object> digitalFileDataResourceInput = new HashMap<>();
+                        digitalFileDataResourceInput.put("userLogin", permUserLogin);
+                        digitalFileDataResourceInput.put("objectInfo",digitalValue.get("uri"));
+                        digitalFileDataResourceInput.put("localeString",digitalValue.get("filePath"));
+                        digitalFileDataResourceInput.put("dataResourceId",mapToStoreContentIdAndDataResourceId.get(digitalValue.get("FileName")));
+                        // Update the product content
+                        Map<String, Object> resultUpdateDigitalFileInformationContent = dispatcher.runSync("updateContent", productContentInput);
+                        if (ServiceUtil.isSuccess(resultUpdateDigitalFileInformationContent)) {
+                            // Process the result as needed
+                            System.out.println(resultUpdateDigitalFileInformationContent);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateDigitalFileInformationContent));
                         }
+                        // Update the data resource
+                        Map<String, Object> resultUpdateDataResource = dispatcher.runSync("updateDataResource", digitalFileDataResourceInput);
+                        if (ServiceUtil.isSuccess(resultUpdateDataResource)) {
+                            // Process the result as needed
+                            System.out.println(resultUpdateDataResource);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateDataResource));
+                        }
+                        // Map to store the values which will be inserted in a ProductAttribute Entity.
+                        Map<String, Object> digitalInfoInputRepresentation = new HashMap<>();
+                        Map<String, Object> digitalInfoInputBackground= new HashMap<>();
+                        Map<String, Object> digitalInfoInputLanguageCode= new HashMap<>();
+                        Map<String, Object> digitalInfoInputResolution= new HashMap<>();
+                        Map<String, Object> digitalInfoInputFileSize= new HashMap<>();
+                        Map<String, Object> digitalInfoInputAssetHeight= new HashMap<>();
+                        Map<String, Object> digitalInfoInputAssetWeight= new HashMap<>();
+                        Map<String, Object> digitalInfoInputAssetID= new HashMap<>();
+                        // dataResourceId from exactContentId.
+                        String dataResourceId = (String) mapToStoreContentIdAndDataResourceId.get(digitalValue.get("FileName"));
+                        // Store Representation data which will be store in contentAttribute entity
+                        digitalInfoInputRepresentation.put("userLogin", permUserLogin);
+                        digitalInfoInputRepresentation.put("dataResourceId",dataResourceId);
+                        digitalInfoInputRepresentation.put("attrName","Representation");
+                        digitalInfoInputRepresentation.put("attrValue",digitalValue.get("representation"));
+                        // Store Background data which will be store in contentAttribute entity
+                        digitalInfoInputBackground.put("userLogin", permUserLogin);
+                        digitalInfoInputBackground.put("dataResourceId",dataResourceId);
+                        digitalInfoInputBackground.put("attrName","Background");
+                        digitalInfoInputBackground.put("attrValue",digitalValue.get("background"));
+                        // Store AssetID data which will be store in contentAttribute entity
+                        digitalInfoInputAssetID.put("userLogin", permUserLogin);
+                        digitalInfoInputAssetID.put("dataResourceId",dataResourceId);
+                        digitalInfoInputAssetID.put("attrName","Asset ID");
+                        digitalInfoInputAssetID.put("attrValue",digitalValue.get("assetID"));
+                        // Store LanguageCode data which will be store in contentAttribute entity
+                        digitalInfoInputLanguageCode.put("userLogin", permUserLogin);
+                        digitalInfoInputLanguageCode.put("dataResourceId",dataResourceId);
+                        digitalInfoInputLanguageCode.put("attrValue",digitalValue.get("languageCodeDigital"));
+                        digitalInfoInputLanguageCode.put("attrName","Language Code");
+
+                        // Store Resolution data which will be store in contentAttribute entity
+                        digitalInfoInputResolution.put("userLogin", permUserLogin);
+                        digitalInfoInputResolution.put("dataResourceId",dataResourceId);
+                        digitalInfoInputResolution.put("attrValue",digitalValue.get("resolution"));
+                        digitalInfoInputResolution.put("attrName","Resolution");
+
+                        // Store FileSize data which will be store in contentAttribute entity
+                        digitalInfoInputFileSize.put("userLogin", permUserLogin);
+                        digitalInfoInputFileSize.put("dataResourceId",dataResourceId);
+                        digitalInfoInputFileSize.put("attrValue",digitalValue.get("fileSize"));
+                        digitalInfoInputFileSize.put("attrName","File Size");
+                        // Store AssetHeight data which will be store in contentAttribute entity
+                        digitalInfoInputAssetHeight.put("userLogin", permUserLogin);
+                        digitalInfoInputAssetHeight.put("dataResourceId",dataResourceId);
+                        digitalInfoInputAssetHeight.put("attrValue",digitalValue.get("assetHeight"));
+                        digitalInfoInputAssetHeight.put("attrName","Asset Height");
+                        // Store Asset Width data which will be store in contentAttribute entity
+                        digitalInfoInputAssetWeight.put("userLogin", permUserLogin);
+                        digitalInfoInputAssetWeight.put("dataResourceId",dataResourceId);
+                        digitalInfoInputAssetWeight.put("attrValue",digitalValue.get("assetWidth"));
+                        digitalInfoInputAssetWeight.put("attrName","Asset Weight");
+                        // Update the attribute related to asset weight using the updateDataResourceAttribute service
+                        Map<String, Object> resultUpdateDataResourceAttributeWeight = dispatcher.runSync("updateDataResourceAttribute", digitalInfoInputAssetWeight);
+                        if (ServiceUtil.isSuccess(resultUpdateDataResourceAttributeWeight)) {
+                            // Process the result as needed
+                            System.out.println(resultUpdateDataResourceAttributeWeight);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateDataResourceAttributeWeight));
+                        }
+                        // Update the attribute related to asset height using the updateDataResourceAttribute service
+                        Map<String, Object> resultUpdateDataResourceAttributeHeight = dispatcher.runSync("updateDataResourceAttribute", digitalInfoInputAssetHeight);
+                        if (ServiceUtil.isSuccess(resultUpdateDataResourceAttributeHeight)) {
+                            // Process the result as needed
+                            System.out.println(resultUpdateDataResourceAttributeHeight);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateDataResourceAttributeHeight));
+                        }
+                        // Update the attribute related to asset file size using the updateDataResourceAttribute service
+                        Map<String, Object> resultUpdateDataResourceAttributeFileSize = dispatcher.runSync("updateDataResourceAttribute", digitalInfoInputFileSize);
+                        if (ServiceUtil.isSuccess(resultUpdateDataResourceAttributeFileSize)) {
+                            // Process the result as needed
+                            System.out.println(resultUpdateDataResourceAttributeFileSize);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateDataResourceAttributeFileSize));
+                        }
+                        // Update the attribute related to Resolution using the updateDataResourceAttribute service
+                        Map<String, Object> resultUpdateDataResourceAttributeResolution = dispatcher.runSync("updateDataResourceAttribute", digitalInfoInputResolution);
+                        if (ServiceUtil.isSuccess(resultUpdateDataResourceAttributeResolution)) {
+                            // Process the result as needed
+                            System.out.println(resultUpdateDataResourceAttributeResolution);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateDataResourceAttributeResolution));
+                        }
+                        // Update the attribute related to language code using the updateDataResourceAttribute service
+                        Map<String, Object> resultUpdateDataResourceAttributeLanguageCode = dispatcher.runSync("updateDataResourceAttribute", digitalInfoInputLanguageCode);
+                        if (ServiceUtil.isSuccess(resultUpdateDataResourceAttributeLanguageCode)) {
+                            // Process the result as needed
+                            System.out.println(resultUpdateDataResourceAttributeLanguageCode);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateDataResourceAttributeLanguageCode));
+                        }
+                        // Update the attribute related to AssetID using the updateDataResourceAttribute service
+                        Map<String, Object> resultUpdateDataResourceAttributeAssetID = dispatcher.runSync("updateDataResourceAttribute", digitalInfoInputAssetID);
+                        if (ServiceUtil.isSuccess(resultUpdateDataResourceAttributeAssetID)) {
+                            // Process the result as needed
+                            System.out.println(resultUpdateDataResourceAttributeAssetID);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateDataResourceAttributeAssetID));
+                        }
+                        // Update the attribute related to Background using the updateDataResourceAttribute service
+                        Map<String, Object> resultUpdateDataResourceBackground = dispatcher.runSync("updateDataResourceAttribute", digitalInfoInputBackground);
+                        if (ServiceUtil.isSuccess(resultUpdateDataResourceBackground)) {
+                            // Process the result as needed
+                            System.out.println(resultUpdateDataResourceBackground);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateDataResourceBackground));
+                        }
+                        // Update the attribute related to Representation using the updateDataResourceAttribute service
+                        Map<String, Object> resultUpdateDataResourceAttributeRepresentation = dispatcher.runSync("updateDataResourceAttribute", digitalInfoInputRepresentation);
+                        if (ServiceUtil.isSuccess(resultUpdateDataResourceAttributeRepresentation)) {
+                            // Process the result as needed
+                            System.out.println(resultUpdateDataResourceAttributeRepresentation);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateDataResourceAttributeRepresentation));
+                        }
+                    }
+                    // Insert the digitalFileInformation data
+                    else
+                    {
+                        // Prepare the value to insert digital file information
+                        List<Map<String,String>> digitalValuesFromUpdateDigitalFileInformation = new ArrayList<>();
+                        digitalValuesFromUpdateDigitalFileInformation.add(digitalValue);
+                        // Creating a object of InsertDigitalFileInformation class.
+                        InsertDigitalFileInformation insertDigitalFileInformation = new InsertDigitalFileInformation(digitalValuesFromUpdateDigitalFileInformation,productId);
+                        insertDigitalFileInformation.insertDigitalInfo();;
+                        // Clear the list
+                        digitalValuesFromUpdateDigitalFileInformation.clear();
                     }
                 }
             }
@@ -1469,137 +1559,122 @@ public class ReadXmlData {
             try {
                 Delegator delegator = DelegatorFactory.getDelegator("default");
                 LocalDispatcher dispatcher = ServiceContainer.getLocalDispatcher("default", delegator);
+                // Find the user login information for the system user
                 GenericValue permUserLogin = EntityQuery.use(delegator).from("UserLogin").where("userLoginId", "system").queryOne();
-                // Generate productCategoryId
-                String productCategoryId = getNextSequenceId(delegator, "ProductCategorySeqId");
-                Map<String,Object> primaryProductCategory = new HashMap<>();
-                Map<String,Object> productCategory= new HashMap<>();
-                Map<String,Object> productCategoryMember= new HashMap<>();
-                // Populate primaryProductCategory data
-                primaryProductCategory.put("productCategoryId",productCategoryAAIAValue.get("aaiapProductCategoryCode"));
-                primaryProductCategory.put("productCategoryTypeId","INDUSTRY_CATEGORY");
-                primaryProductCategory.put("userLogin", permUserLogin);
-
-                try {
-                    // Define a search condition to check if the parent category exists
-                    EntityCondition condition = EntityCondition.makeCondition(
-                            EntityCondition.makeCondition("productCategoryId", EntityOperator.EQUALS, productCategoryAAIAValue.get("aaiapProductCategoryCode"))
+                // Check if the primary category already exists
+                GenericValue checkIfPrimaryCategoryExits = EntityQuery.use(delegator).from("ProductCategory").where("productCategoryId",productCategoryAAIAValue.get("aaiapProductCategoryCode")).queryOne();
+                if(checkIfPrimaryCategoryExits!=null) // If primary category found
+                {
+                    // Build the condition to find a specific product category
+                    EntityCondition conditionToFindProductCategory = EntityCondition.makeCondition(
+                            EntityCondition.makeCondition("categoryName", EntityOperator.EQUALS,productCategoryAAIAValue.get("BrandAAIAID") ),
+                            EntityOperator.AND,
+                            EntityCondition.makeCondition("primaryParentCategoryId", EntityOperator.EQUALS, productCategoryAAIAValue.get("aaiapProductCategoryCode"))
                     );
-
-                    // Execute the query to check for the parent category
-                    GenericValue parentCategoryCheck = EntityQuery.use(delegator).from("ProductCategory").where(condition).queryOne();
-                    // Check if parent category exists
-                    if (parentCategoryCheck != null) {
-                        System.out.println(parentCategoryCheck);
-                        // Create a condition to check if a category with matching primary parent category ID and category name exists
-                        EntityCondition conditionForProductCategory = EntityCondition.makeCondition(
-                                EntityCondition.makeCondition("primaryParentCategoryId", EntityOperator.EQUALS, productCategoryAAIAValue.get("aaiapProductCategoryCode")),
-                                EntityOperator.AND,
-                                EntityCondition.makeCondition("categoryName", EntityOperator.EQUALS, productCategoryAAIAValue.get("BrandAAIAID"))
+                    // Check if the specific category exists
+                    GenericValue checkIfCategoryExits = EntityQuery.use(delegator).from("ProductCategory").where(conditionToFindProductCategory).queryOne();
+                    if(checkIfCategoryExits==null) // If primary category found but category not found, then update a child category
+                    {
+                        // Build the condition to find the exact product category
+                        EntityCondition conditionToFindExactProductCategory = EntityCondition.makeCondition(
+                                EntityCondition.makeCondition("primaryParentCategoryId", EntityOperator.EQUALS, productCategoryAAIAValue.get("aaiapProductCategoryCode"))
                         );
-
-                        // Execute the query to check for the existence of the category
-                        GenericValue categoryCheck = EntityQuery.use(delegator).from("ProductCategory").where(conditionForProductCategory).queryOne();
-                        // Check if a matching category is found
-                        if(categoryCheck!=null)
+                        // Get the category ID of the existing category
+                        GenericValue getCategoryId = EntityQuery.use(delegator).from("ProductCategory").where(conditionToFindExactProductCategory).queryOne();
+                        // Prepare data for updating the product category
+                        Map<String,Object> productCategory= new HashMap<>();
+                        productCategory.put("userLogin", permUserLogin);
+                        productCategory.put("productCategoryId",getCategoryId.get("productCategoryId"));
+                        productCategory.put("productCategoryTypeId","BRAND_CATEGORY");
+                        productCategory.put("categoryName",productCategoryAAIAValue.get("BrandAAIAID"));
+                        // Update the product category
+                        Map<String, Object> resultCategory = dispatcher.runSync("updateProductCategory", productCategory);
+                        if (ServiceUtil.isSuccess(resultCategory))
                         {
-                            // Create a condition to check if the product is already a member of the category
-                            EntityCondition conditionForProductCategoryMember = EntityCondition.makeCondition(
-                                    EntityCondition.makeCondition("productCategoryId", EntityOperator.EQUALS, categoryCheck.get("productCategoryId")),
-                                    EntityOperator.AND,
-                                    EntityCondition.makeCondition("productId", EntityOperator.EQUALS, productCategoryAAIAValue.get("partNumber"))
-                            );
-
-                            // Execute the query to check for existing product category membership
-                            GenericValue productCategoryMemberCheck = EntityQuery.use(delegator).from("ProductCategoryMember").where(conditionForProductCategoryMember).queryOne();
-
-                            if(productCategoryMemberCheck!=null)
-                            {
-                                // The product is already a member of a category
-                                System.out.println("Product already exits in a category");
-                            }
-                            else {
-                                // The product is not yet a member, proceed to add it to the category
-                                productCategoryMember.put("userLogin", permUserLogin);
-                                productCategoryMember.put("productId",productCategoryAAIAValue.get("partNumber"));
-                                productCategoryMember.put("productCategoryId",categoryCheck.get("productCategoryId"));
-                                // Call the service to add the product to the category
-                                Map<String, Object> resultCategoryMember = dispatcher.runSync("addProductToCategory", productCategoryMember);
-
-                                if (ServiceUtil.isSuccess(resultCategoryMember)) {
-                                    System.out.println(resultCategoryMember);
-                                }else {
-                                    System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultCategoryMember));
-                                }
-                            }
-
-                        }else { // If the matching category was not found, create the category and proceed to add the product to it
-                            // Get the primary product category ID
-                            String primaryProductCategoryId = (String) productCategoryAAIAValue.get("aaiapProductCategoryCode");
-                            // Create the details of the new product category
-                            productCategory.put("userLogin", permUserLogin);
-                            productCategory.put("productCategoryId",productCategoryId);
-                            productCategory.put("productCategoryTypeId","CATALOG_CATEGORY");
-                            productCategory.put("categoryName",productCategoryAAIAValue.get("BrandAAIAID"));
-                            productCategory.put("primaryParentCategoryId",primaryProductCategoryId);
-                            // Call the service to create the new product category
-                            Map<String, Object> resultCategory = dispatcher.runSync("createProductCategory", productCategory);
-                            if (ServiceUtil.isSuccess(resultCategory)) {
-                                // Prepare the details of the product category membership
-                                productCategoryMember.put("userLogin", permUserLogin);
-                                productCategoryMember.put("productId",productCategoryAAIAValue.get("partNumber"));
-                                productCategoryMember.put("productCategoryId",productCategoryId);
-                                // Call the service to add the product to the newly created category
-                                Map<String, Object> resultCategoryMember = dispatcher.runSync("addProductToCategory", productCategoryMember);
-                                if (ServiceUtil.isSuccess(resultCategoryMember)) {
-                                    System.out.println(resultCategoryMember);
-                                }else {
-                                    System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultCategoryMember));
-                                }
-
-                            }else {
-                                System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultCategory));
-                            }
-                            System.out.println("Category not found");
-                        }
-                    } else { // If the primary product category does not exist, create it and proceed to create the new category
-                        // Call the service to create the primary product category
-                        Map<String, Object> resultPrimaryCategory = dispatcher.runSync("createProductCategory", primaryProductCategory);
-                        if (ServiceUtil.isSuccess(resultPrimaryCategory)) {
-
-                            // Store productCategoryId
-                            String primaryProductCategoryId = (String) resultPrimaryCategory.get("productCategoryId");
-                            // Set up the details of the new product category
-                            productCategory.put("userLogin", permUserLogin);
-                            productCategory.put("productCategoryId",productCategoryId);
-                            productCategory.put("productCategoryTypeId","CATALOG_CATEGORY");
-                            productCategory.put("categoryName",productCategoryAAIAValue.get("BrandAAIAID"));
-                            productCategory.put("primaryParentCategoryId",primaryProductCategoryId);
-                            // Call the service to create the new product category
-                            Map<String, Object> resultCategory = dispatcher.runSync("createProductCategory", productCategory);
-                            if (ServiceUtil.isSuccess(resultCategory)) {
-                                // Prepare the details of the product category membership
-                                productCategoryMember.put("userLogin", permUserLogin);
-                                productCategoryMember.put("productId",productCategoryAAIAValue.get("partNumber"));
-                                productCategoryMember.put("productCategoryId",productCategoryId);
-                                // Call the service to add the product to the newly created category
-                                Map<String, Object> resultCategoryMember = dispatcher.runSync("addProductToCategory", productCategoryMember);
-                                if (ServiceUtil.isSuccess(resultCategoryMember)) {
-                                    System.out.println(resultCategoryMember);
-                                }else {
-                                    System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultCategoryMember));
-                                }
-                            }else {
-                                System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultCategory));
-                            }
-                        } else {
-                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultPrimaryCategory));
+                            System.out.println(resultCategory);
+                        }else
+                        {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultCategory));
                         }
                     }
-                } catch (GenericEntityException e) {
-                    e.printStackTrace();
+                }else { // Creating primary category and product category if it is not exits
+                    // Prepare data for creating the primary product category
+                    Map<String,Object> primaryProductCategory = new HashMap<>();
+                    primaryProductCategory.put("productCategoryId",productCategoryAAIAValue.get("aaiapProductCategoryCode"));
+                    primaryProductCategory.put("productCategoryTypeId","AAIA_PRODUCTCATEGORY");
+                    primaryProductCategory.put("userLogin", permUserLogin);
+                    // Create the primary product category
+                    Map<String, Object> resultPrimaryCategory = dispatcher.runSync("createProductCategory", primaryProductCategory);
+                    if (ServiceUtil.isSuccess(resultPrimaryCategory)) {
+                        String productCategoryId = getNextSequenceId(delegator, "ProductCategorySeqId");
+                        // Prepare data for creating the product category
+                        Map<String,Object> productCategory= new HashMap<>();
+                        productCategory.put("userLogin", permUserLogin);
+                        productCategory.put("productCategoryId",productCategoryId);
+                        productCategory.put("productCategoryTypeId","BRAND_CATEGORY");
+                        productCategory.put("categoryName",productCategoryAAIAValue.get("BrandAAIAID"));
+                        productCategory.put("primaryParentCategoryId",productCategoryAAIAValue.get("aaiapProductCategoryCode"));
+                        // Create the product category
+                        Map<String, Object> resultCategory = dispatcher.runSync("createProductCategory", productCategory);
+                        if (ServiceUtil.isSuccess(resultCategory))
+                        {
+                            System.out.println("Created product category");
+                            System.out.println(resultCategory);
+                        }else
+                        {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultCategory));
+                        }
+                    }else
+                    {
+                        System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultPrimaryCategory));
+                    }
                 }
 
+            }catch (Exception e) {
+                System.out.println("Error calling service: " + e.getMessage());
+            }
+        }
+    }
+
+
+    // A private class for adding product to category
+    private static class AddProductToCategory
+    {
+        private String productId;
+        private String primaryCategoryId;
+        // Constructor to initialize with productId and primaryCategoryId values
+        AddProductToCategory(String productId,String primaryCategoryId)
+        {
+            this.productId = productId;
+            this.primaryCategoryId = primaryCategoryId;
+        }
+        // Method for creating and updating the product category
+        private void addProductToCategory()
+        {
+            try {
+                Delegator delegator = DelegatorFactory.getDelegator("default");
+                LocalDispatcher dispatcher = ServiceContainer.getLocalDispatcher("default", delegator);
+                // Find the user login information for the system user
+                GenericValue permUserLogin = EntityQuery.use(delegator).from("UserLogin").where("userLoginId", "system").queryOne();
+                // Build the condition to find the exact product category
+                EntityCondition conditionToFindExactProductCategory = EntityCondition.makeCondition(
+                        EntityCondition.makeCondition("primaryParentCategoryId", EntityOperator.EQUALS, primaryCategoryId)
+                );
+                // Get the category ID of the existing category
+                GenericValue getCategoryId = EntityQuery.use(delegator).from("ProductCategory").where(conditionToFindExactProductCategory).queryOne();
+                // Prepare data for adding product to category
+                Map<String,Object> productCategoryMember= new HashMap<>();
+                productCategoryMember.put("userLogin", permUserLogin);
+                productCategoryMember.put("productId",productId);
+                productCategoryMember.put("productCategoryId",getCategoryId.get("productCategoryId"));
+                // Add the product to the category by calling addProductToCategory service
+                Map<String, Object> resultCategoryMember = dispatcher.runSync("addProductToCategory", productCategoryMember);
+
+                if (ServiceUtil.isSuccess(resultCategoryMember)) {
+                    System.out.println(resultCategoryMember);
+                }else {
+                    System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultCategoryMember));
+                }
             }catch (Exception e) {
                 System.out.println("Error calling service: " + e.getMessage());
             }
