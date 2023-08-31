@@ -435,7 +435,7 @@ public class ReadXmlData {
                                         // Insert DigitalFileInformation
                                         InsertDigitalFileInformation insertDigitalFileInformationObject = new InsertDigitalFileInformation(productDigitalFileInformationList,(String) mainProductValue.get("partNumber"));
                                         insertDigitalFileInformationObject.insertDigitalInfo();
-
+                                        // Associate Product to a category
                                         AddProductToCategory addProductToCategory = new AddProductToCategory((String) mainProductValue.get("partNumber"),(String) mainProductValue.get("aaiapProductCategoryCode"));
                                         addProductToCategory.addProductToCategory();
 
@@ -829,44 +829,44 @@ public class ReadXmlData {
                                 String dataResourceId = (String) resultProductDataResource.get("dataResourceId");
                                 // Insert dataResourceId in a productContentInput
                                 productContentInput.put("dataResourceId",dataResourceId);
-                                // Store Resolution data which will be store in contentAttribute entity
+                                // Store Representation data which will be store in DataResourceAttribute entity
                                 digitalInfoInputRepresentation.put("userLogin", permUserLogin);
                                 digitalInfoInputRepresentation.put("dataResourceId",dataResourceId);
                                 digitalInfoInputRepresentation.put("attrName","Representation");
                                 digitalInfoInputRepresentation.put("attrValue",digitalValue.get("representation"));
-                                // Store Resolution data which will be store in contentAttribute entity
+                                // Store Background data which will be store in DataResourceAttribute entity
                                 digitalInfoInputBackground.put("userLogin", permUserLogin);
                                 digitalInfoInputBackground.put("dataResourceId",dataResourceId);
                                 digitalInfoInputBackground.put("attrName","Background");
                                 digitalInfoInputBackground.put("attrValue",digitalValue.get("background"));
-                                // Store Resolution data which will be store in contentAttribute entity
+                                // Store AssetID data which will be store in DataResourceAttribute entity
                                 digitalInfoInputAssetID.put("userLogin", permUserLogin);
                                 digitalInfoInputAssetID.put("dataResourceId",dataResourceId);
                                 digitalInfoInputAssetID.put("attrName","Asset ID");
                                 digitalInfoInputAssetID.put("attrValue",digitalValue.get("assetID"));
-                                // Store Resolution data which will be store in contentAttribute entity
+                                // Store Resolution data which will be store in DataResourceAttribute entity
                                 digitalInfoInputLanguageCode.put("userLogin", permUserLogin);
                                 digitalInfoInputLanguageCode.put("dataResourceId",dataResourceId);
                                 digitalInfoInputLanguageCode.put("attrValue",digitalValue.get("languageCodeDigital"));
                                 digitalInfoInputLanguageCode.put("attrName","Language Code");
 
-                                // Store Resolution data which will be store in contentAttribute entity
+                                // Store Resolution data which will be store in DataResourceAttribute entity
                                 digitalInfoInputResolution.put("userLogin", permUserLogin);
                                 digitalInfoInputResolution.put("dataResourceId",dataResourceId);
                                 digitalInfoInputResolution.put("attrValue",digitalValue.get("resolution"));
                                 digitalInfoInputResolution.put("attrName","Resolution");
 
-                                // Store FileSize data which will be store in contentAttribute entity
+                                // Store FileSize data which will be store in DataResourceAttribute entity
                                 digitalInfoInputFileSize.put("userLogin", permUserLogin);
                                 digitalInfoInputFileSize.put("dataResourceId",dataResourceId);
                                 digitalInfoInputFileSize.put("attrValue",digitalValue.get("fileSize"));
                                 digitalInfoInputFileSize.put("attrName","File Size");
-
+                                // Store Asset Height data which will be store in DataResourceAttribute entity
                                 digitalInfoInputAssetHeight.put("userLogin", permUserLogin);
                                 digitalInfoInputAssetHeight.put("dataResourceId",dataResourceId);
                                 digitalInfoInputAssetHeight.put("attrValue",digitalValue.get("assetHeight"));
                                 digitalInfoInputAssetHeight.put("attrName","Asset Height");
-                                // Store Asset Width data which will be store in contentAttribute entity
+                                // Store Asset Width data which will be store in DataResourceAttribute entity
                                 digitalInfoInputAssetWeight.put("userLogin", permUserLogin);
                                 digitalInfoInputAssetWeight.put("dataResourceId",dataResourceId);
                                 digitalInfoInputAssetWeight.put("attrValue",digitalValue.get("assetWidth"));
@@ -1417,44 +1417,44 @@ public class ReadXmlData {
                         Map<String, Object> digitalInfoInputAssetID= new HashMap<>();
                         // dataResourceId from exactContentId.
                         String dataResourceId = (String) mapToStoreContentIdAndDataResourceId.get(digitalValue.get("FileName"));
-                        // Store Representation data which will be store in contentAttribute entity
+                        // Store Representation data which will be store in DataResourceAttribute entity
                         digitalInfoInputRepresentation.put("userLogin", permUserLogin);
                         digitalInfoInputRepresentation.put("dataResourceId",dataResourceId);
                         digitalInfoInputRepresentation.put("attrName","Representation");
                         digitalInfoInputRepresentation.put("attrValue",digitalValue.get("representation"));
-                        // Store Background data which will be store in contentAttribute entity
+                        // Store Background data which will be store in DataResourceAttribute entity
                         digitalInfoInputBackground.put("userLogin", permUserLogin);
                         digitalInfoInputBackground.put("dataResourceId",dataResourceId);
                         digitalInfoInputBackground.put("attrName","Background");
                         digitalInfoInputBackground.put("attrValue",digitalValue.get("background"));
-                        // Store AssetID data which will be store in contentAttribute entity
+                        // Store AssetID data which will be store in DataResourceAttribute entity
                         digitalInfoInputAssetID.put("userLogin", permUserLogin);
                         digitalInfoInputAssetID.put("dataResourceId",dataResourceId);
                         digitalInfoInputAssetID.put("attrName","Asset ID");
                         digitalInfoInputAssetID.put("attrValue",digitalValue.get("assetID"));
-                        // Store LanguageCode data which will be store in contentAttribute entity
+                        // Store LanguageCode data which will be store in DataResourceAttribute entity
                         digitalInfoInputLanguageCode.put("userLogin", permUserLogin);
                         digitalInfoInputLanguageCode.put("dataResourceId",dataResourceId);
                         digitalInfoInputLanguageCode.put("attrValue",digitalValue.get("languageCodeDigital"));
                         digitalInfoInputLanguageCode.put("attrName","Language Code");
 
-                        // Store Resolution data which will be store in contentAttribute entity
+                        // Store Resolution data which will be store in DataResourceAttribute entity
                         digitalInfoInputResolution.put("userLogin", permUserLogin);
                         digitalInfoInputResolution.put("dataResourceId",dataResourceId);
                         digitalInfoInputResolution.put("attrValue",digitalValue.get("resolution"));
                         digitalInfoInputResolution.put("attrName","Resolution");
 
-                        // Store FileSize data which will be store in contentAttribute entity
+                        // Store FileSize data which will be store in DataResourceAttribute entity
                         digitalInfoInputFileSize.put("userLogin", permUserLogin);
                         digitalInfoInputFileSize.put("dataResourceId",dataResourceId);
                         digitalInfoInputFileSize.put("attrValue",digitalValue.get("fileSize"));
                         digitalInfoInputFileSize.put("attrName","File Size");
-                        // Store AssetHeight data which will be store in contentAttribute entity
+                        // Store AssetHeight data which will be store in DataResourceAttribute entity
                         digitalInfoInputAssetHeight.put("userLogin", permUserLogin);
                         digitalInfoInputAssetHeight.put("dataResourceId",dataResourceId);
                         digitalInfoInputAssetHeight.put("attrValue",digitalValue.get("assetHeight"));
                         digitalInfoInputAssetHeight.put("attrName","Asset Height");
-                        // Store Asset Width data which will be store in contentAttribute entity
+                        // Store Asset Width data which will be store in DataResourceAttribute entity
                         digitalInfoInputAssetWeight.put("userLogin", permUserLogin);
                         digitalInfoInputAssetWeight.put("dataResourceId",dataResourceId);
                         digitalInfoInputAssetWeight.put("attrValue",digitalValue.get("assetWidth"));
