@@ -25,12 +25,16 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.io.FileInputStream;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ReadXmlData {
 
         public static String getNextSequenceId(Delegator delegator, String sequenceName) {
-        String nextSeqId = delegator.getNextSeqId(sequenceName);
-        return nextSeqId;
+            synchronized (delegator) {
+                String nextSeqId = delegator.getNextSeqId(sequenceName);
+                return nextSeqId;
+            }
     }
     // Method to read XML data
     public static Map<String, Object> readXmlDataService(DispatchContext dctx, Map<String, ? extends Object> context) {
@@ -105,6 +109,9 @@ public class ReadXmlData {
             Map<String, String> productFileInformationMap = new HashMap<>();
             // Map to store Product category related data
             Map<String,Object> productCategoryMap = new HashMap<>();
+
+            // Create an executor service with a fixed number of threads
+            ExecutorService executor = Executors.newFixedThreadPool(8);
 
             // Iterate through XML elements and extract data
             while (reader.hasNext()) {
@@ -376,89 +383,152 @@ public class ReadXmlData {
                                 productDigitalFileInformationList.add(new HashMap<>(productFileInformationMap));
                                 break;
                             case "Item":
+                                // Create copies of the data before clearing the original data structures
+                                Map<String, Object> mainProductValueCopy = new HashMap<>(mainProductValue);
+                                List<Map<String,String>> productDescriptionCopy = new  ArrayList<Map<String, String>>(productDescription);
+                                List<Map<String,String>> productExtendedInformationCopy = new ArrayList<Map<String, String>>(productExtendedInformation);
+                                List<Map<String,String>> productAttributeCopy =  new ArrayList<Map<String, String>>(productAttribute);
+                                String partNumberCopy = (String) mainProductValue.get("partNumber");
+                                List<Map<String,String>> partInterchangeValuesCopy = new ArrayList<Map<String, String>>(partInterchangeValues);
+                                List<Map<String,String>> productDigitalFileInformationListCopy = new ArrayList<Map<String, String>>(productDigitalFileInformationList);
+                                Map<String, Object> productCategoryMapCopy = new HashMap<>(productCategoryMap);
 
-                                // Check if the product ID exists
-                                // Create an object to check if the product ID exists
-                                CheckIfProductIdExists checkIfProductIdExistsObject = new CheckIfProductIdExists((String) mainProductValue.get("partNumber"));
-                                boolean exists;
-                                try {
+                                // Create the task instance with the copied data and submit it to the executor
+                                InsertXMLDataUsingMultiThread insertXMLDataUsingMultiThread = new InsertXMLDataUsingMultiThread(mainProductValueCopy, productDescriptionCopy, productExtendedInformationCopy, partNumberCopy, productAttributeCopy, partInterchangeValuesCopy, productDigitalFileInformationListCopy, productCategoryMapCopy);
+                                executor.submit(insertXMLDataUsingMultiThread);
 
-                                    // Perform the product ID existence check
-                                    exists = checkIfProductIdExistsObject.checkIfProductIdExists();
-                                    // If product exists then do not Insert data
-                                    if (exists) {
-                                        // Update product details
-                                        UpdateProductDetails updateProductDetailsObject = new UpdateProductDetails(mainProductValue);
-                                        updateProductDetailsObject.UpdateProductDetails();
-                                        // Update product attributes
-                                        UpdateProductAttributes updateProductAttributes = new UpdateProductAttributes(productAttribute,(String) mainProductValue.get("partNumber"));
-                                        updateProductAttributes.updateProductAttributes();
+                                // Clear the original data structures
+                                mainProductValue.clear();
+                                productDescription.clear();
+                                productAttribute.clear();
 
-                                        // Create or update the product category (If product category is already exist then update the product category and if not then create a product category)
-                                        CreateProductCategory createProductCategory = new CreateProductCategory(productCategoryMap);
-                                        createProductCategory.createProductCategory();
+                                productExtendedInformation.clear();
+                                productDigitalFileInformationList.clear();
+                                partInterchangeValues.clear();
+                                productCategoryMap.clear();
 
-                                        // Update the product content like product description and product extended information
-                                        UpdateProductContent updateProductContent = new UpdateProductContent(productDescription,productExtendedInformation,(String) mainProductValue.get("partNumber"));
-                                        updateProductContent.UpdateProductContent();
-
-                                        // Update the digital file information
-                                        UpdateDigitalFileInformation updateDigitalFileInformation = new UpdateDigitalFileInformation(productDigitalFileInformationList,(String) mainProductValue.get("partNumber"));
-                                        updateDigitalFileInformation.updateDigitalInfo();
-
-                                        // Clear the map to release memory.
-                                        mainProductValue.clear();
-                                        productDescription.clear();
-                                        productAttribute.clear();
-                                        productExtendedInformation.clear();
-                                        productDigitalFileInformationList.clear();
-                                        partInterchangeValues.clear();
-                                        productAttribute.clear();
-                                        mainProductValue.clear();
-                                        System.out.println("Product Updated.");
-                                    } else { // if product do not exist then insert data
-                                        // Create product category
-                                        CreateProductCategory createProductCategory = new CreateProductCategory(productCategoryMap);
-                                        createProductCategory.createProductCategory();
-                                        // Insert Product details
-                                        InsertProductDetails insertProductDetailsObject = new InsertProductDetails(mainProductValue);
-                                        insertProductDetailsObject.insertProductDetails();
-                                        // Insert Product Content details
-                                        InsertProductContent insertProductContentObject = new InsertProductContent(productDescription,productExtendedInformation, (String) mainProductValue.get("partNumber"));
-                                        insertProductContentObject.insertProductContent();
-                                         //Insert Product attributes details
-                                        InsertProductAttributes insertProductAttributes = new InsertProductAttributes(productAttribute,(String) mainProductValue.get("partNumber"));
-                                        insertProductAttributes.InsertProductAttributes();
-                                        // Insert PartInterChange Details
-                                        InsertPartInterchange insertPartInterchange = new InsertPartInterchange(partInterchangeValues,(String) mainProductValue.get("partNumber"));
-                                        insertPartInterchange.insertPartInterchange();
-                                        // Insert DigitalFileInformation
-                                        InsertDigitalFileInformation insertDigitalFileInformationObject = new InsertDigitalFileInformation(productDigitalFileInformationList,(String) mainProductValue.get("partNumber"));
-                                        insertDigitalFileInformationObject.insertDigitalInfo();
-                                        // Associate Product to a category
-                                        AddProductToCategory addProductToCategory = new AddProductToCategory((String) mainProductValue.get("partNumber"),(String) mainProductValue.get("aaiapProductCategoryCode"));
-                                        addProductToCategory.addProductToCategory();
-
-                                        // Clear List and Map to prepare for the next set of item data
-                                        mainProductValue.clear();
-                                        productDescription.clear();
-                                        productAttribute.clear();
-                                        productExtendedInformation.clear();
-                                        productDigitalFileInformationList.clear();
-                                        partInterchangeValues.clear();
-                                        productAttribute.clear();
-                                        mainProductValue.clear();
-                                    }
-                                } catch (GenericEntityException e) {
-                                    e.printStackTrace();
-                                }
                                 break;
                         }
                         break;
                 }
             }
+
+            // Shutdown the executor when tasks are no longer needed
+            executor.shutdown();
         }
     }
+
+    public static class InsertXMLDataUsingMultiThread implements Runnable
+    {
+        private Map<String,Object> mainProductValue;
+        private List<Map<String,String>> productDescription;
+        private List<Map<String,String>> productExtendedInformation;
+        private String productId;
+        private List<Map<String,String>> productAttribute;
+
+        private List<Map<String,String>> partInterchangeValues;
+
+        private List<Map<String,String>> productDigitalFileInformationList;
+        private Map<String,Object> productCategoryMap;
+
+        InsertXMLDataUsingMultiThread(Map<String,Object> mainProductValue,List<Map<String,String>> productDescription, List<Map<String,String>> productExtendedInformation, String productId,List<Map<String,String>> productAttribute,List<Map<String,String>> partInterchangeValues,List<Map<String,String>> productDigitalFileInformationList,Map<String,Object> productCategoryMap)
+        {
+            this.mainProductValue = mainProductValue;
+            this.productDescription = productDescription;
+            this.productExtendedInformation = productExtendedInformation;
+            this.productId = productId;
+            this.productAttribute = productAttribute;
+            this.partInterchangeValues = partInterchangeValues;
+            this.productDigitalFileInformationList = productDigitalFileInformationList;
+            this.productCategoryMap =productCategoryMap;
+        }
+        public void run()
+        {
+            // Record the current time in milliseconds
+            long startCountTime = System.currentTimeMillis();
+            // Check if the product ID exists
+            // Create an object to check if the product ID exists
+            CheckIfProductIdExists checkIfProductIdExistsObject = new CheckIfProductIdExists((String) mainProductValue.get("partNumber"));
+            boolean exists;
+            try {
+
+                // Perform the product ID existence check
+                exists = checkIfProductIdExistsObject.checkIfProductIdExists();
+                // If product exists then do not Insert data
+                if (exists) {
+                    // Update product details
+                    UpdateProductDetails updateProductDetailsObject = new UpdateProductDetails(mainProductValue);
+                    updateProductDetailsObject.UpdateProductDetails();
+                    // Update product attributes
+                    UpdateProductAttributes updateProductAttributes = new UpdateProductAttributes(productAttribute,(String) mainProductValue.get("partNumber"));
+                    updateProductAttributes.updateProductAttributes();
+
+                    // Create or update the product category (If product category is already exist then update the product category and if not then create a product category)
+                    CreateProductCategory createProductCategory = new CreateProductCategory(productCategoryMap);
+                    createProductCategory.createProductCategory();
+
+                    // Update the product content like product description and product extended information
+                    UpdateProductContent updateProductContent = new UpdateProductContent(productDescription,productExtendedInformation,(String) mainProductValue.get("partNumber"));
+                    updateProductContent.UpdateProductContent();
+
+                    // Update the digital file information
+                    UpdateDigitalFileInformation updateDigitalFileInformation = new UpdateDigitalFileInformation(productDigitalFileInformationList,(String) mainProductValue.get("partNumber"));
+                    updateDigitalFileInformation.updateDigitalInfo();
+
+                    // Clear the map to release memory.
+                    mainProductValue.clear();
+                    productDescription.clear();
+                    productAttribute.clear();
+                    productExtendedInformation.clear();
+                    productDigitalFileInformationList.clear();
+                    partInterchangeValues.clear();
+                    productAttribute.clear();
+                    mainProductValue.clear();
+                    System.out.println("Product Updated.");
+                } else { // if product do not exist then insert data
+                    // Create product category
+                    CreateProductCategory createProductCategory = new CreateProductCategory(productCategoryMap);
+                    createProductCategory.createProductCategory();
+                    // Insert Product details
+                    InsertProductDetails insertProductDetailsObject = new InsertProductDetails(mainProductValue);
+                    insertProductDetailsObject.insertProductDetails();
+                    // Insert Product Content details
+                    InsertProductContent insertProductContentObject = new InsertProductContent(productDescription,productExtendedInformation, (String) mainProductValue.get("partNumber"));
+                    insertProductContentObject.insertProductContent();
+                    //Insert Product attributes details
+                    InsertProductAttributes insertProductAttributes = new InsertProductAttributes(productAttribute,(String) mainProductValue.get("partNumber"));
+                    insertProductAttributes.InsertProductAttributes();
+                    // Insert PartInterChange Details
+                    InsertPartInterchange insertPartInterchange = new InsertPartInterchange(partInterchangeValues,(String) mainProductValue.get("partNumber"));
+                    insertPartInterchange.insertPartInterchange();
+                    // Insert DigitalFileInformation
+                    InsertDigitalFileInformation insertDigitalFileInformationObject = new InsertDigitalFileInformation(productDigitalFileInformationList,(String) mainProductValue.get("partNumber"));
+                    insertDigitalFileInformationObject.insertDigitalInfo();
+                    // Associate Product to a category
+                    AddProductToCategory addProductToCategory = new AddProductToCategory((String) mainProductValue.get("partNumber"),(String) mainProductValue.get("aaiapProductCategoryCode"));
+                    addProductToCategory.addProductToCategory();
+
+                    // Clear List and Map to prepare for the next set of item data
+                    mainProductValue.clear();
+                    productDescription.clear();
+                    productAttribute.clear();
+                    productExtendedInformation.clear();
+                    productDigitalFileInformationList.clear();
+                    partInterchangeValues.clear();
+                    productAttribute.clear();
+                    mainProductValue.clear();
+                }
+            } catch (GenericEntityException e) {
+                e.printStackTrace();
+            }
+            // Record the current time in milliseconds
+            long endCountTime = System.currentTimeMillis();
+            // Calculate and display the time taken for counting by the current thread
+            System.out.println("Time taken for counting Thread : "+ Thread.currentThread().getId() + "----------" + (endCountTime - startCountTime) + " ms");
+        }
+
+    }
+
 
     // Nested class to insert product details
     public static class InsertProductDetails{
@@ -534,14 +604,14 @@ public class ReadXmlData {
                 }
 
             }
-        catch (Exception e) {
-            System.out.println("Error calling service: " + e.getMessage());
-        }
+            catch (Exception e) {
+                System.out.println("Error calling service: " + e.getMessage());
+            }
         }
     }
 
     // Nested class to insert product content
-        public static class InsertProductContent{
+    public static class InsertProductContent{
         // Lists to store product descriptions, extended information, and attributes
         private List<Map<String,String>> productDescription;
         private List<Map<String,String>> productExtendedInformation;
@@ -558,111 +628,111 @@ public class ReadXmlData {
         // Method to insert product content
         private void insertProductContent()
         {
-        try {
-            Delegator delegator = DelegatorFactory.getDelegator("default");
-            LocalDispatcher dispatcher = ServiceContainer.getLocalDispatcher("default", delegator);
-            GenericValue permUserLogin = EntityQuery.use(delegator).from("UserLogin").where("userLoginId", "system").queryOne();
-            Map<String, Object> descriptionInput = new HashMap<>();
-            // Loop through each description and insert content
-            for (Map<String,String> descriptionMap : productDescription) {
-                Map<String, Object> productContentInput = new HashMap<>();
-                Map<String,Object> productDataResource = new HashMap<>();
-                // Prepare content description values to insert
-                String contentId = getNextSequenceId(delegator, "ContentSeqId");
-                descriptionInput.put("contentId", contentId);
-                descriptionInput.put("contentName", descriptionMap.get("descriptionCode"));
-                descriptionInput.put("localeString", descriptionMap.get("languageCode"));
-                descriptionInput.put("serviceName", descriptionMap.get("maintenanceType"));
-                descriptionInput.put("userLogin", permUserLogin);
+            try {
+                Delegator delegator = DelegatorFactory.getDelegator("default");
+                LocalDispatcher dispatcher = ServiceContainer.getLocalDispatcher("default", delegator);
+                GenericValue permUserLogin = EntityQuery.use(delegator).from("UserLogin").where("userLoginId", "system").queryOne();
+                Map<String, Object> descriptionInput = new HashMap<>();
+                // Loop through each description and insert content
+                for (Map<String,String> descriptionMap : productDescription) {
+                    Map<String, Object> productContentInput = new HashMap<>();
+                    Map<String,Object> productDataResource = new HashMap<>();
+                    // Prepare content description values to insert
+                    String contentId = getNextSequenceId(delegator, "ContentSeqId");
+                    descriptionInput.put("contentId", contentId);
+                    descriptionInput.put("contentName", descriptionMap.get("descriptionCode"));
+                    descriptionInput.put("localeString", descriptionMap.get("languageCode"));
+                    descriptionInput.put("serviceName", descriptionMap.get("maintenanceType"));
+                    descriptionInput.put("userLogin", permUserLogin);
 
-                // insert product description in a ElectronicText entity
-                // In productDataResource map, stored value which will be passed to createElectronicText service.
-                productDataResource.put("textData",descriptionMap.get("description"));
-                productDataResource.put("userLogin", permUserLogin);
-                // calling createElectronicText service
-                Map<String, Object> resultDataResource = dispatcher.runSync("createElectronicText", productDataResource);
-                if (ServiceUtil.isSuccess(resultDataResource)) {
-                    // Process the result as needed
-                    descriptionInput.put("dataResourceId",resultDataResource.get("dataResourceId"));
-                    // Call service to create content
-                    Map<String, Object> resultContent = dispatcher.runSync("createContent", descriptionInput);
-                    if (ServiceUtil.isSuccess(resultContent)) {
+                    // insert product description in a ElectronicText entity
+                    // In productDataResource map, stored value which will be passed to createElectronicText service.
+                    productDataResource.put("textData",descriptionMap.get("description"));
+                    productDataResource.put("userLogin", permUserLogin);
+                    // calling createElectronicText service
+                    Map<String, Object> resultDataResource = dispatcher.runSync("createElectronicText", productDataResource);
+                    if (ServiceUtil.isSuccess(resultDataResource)) {
                         // Process the result as needed
-                        System.out.println(resultContent);
+                        descriptionInput.put("dataResourceId",resultDataResource.get("dataResourceId"));
+                        // Call service to create content
+                        Map<String, Object> resultContent = dispatcher.runSync("createContent", descriptionInput);
+                        if (ServiceUtil.isSuccess(resultContent)) {
+                            // Process the result as needed
+                            System.out.println(resultContent);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultContent));
+                        }
+                        // Insert product content association
+                        productContentInput.put("contentId", contentId);
+                        productContentInput.put("productId", productId);
+                        productContentInput.put("productContentTypeId", "DESCRIPTION");
+                        Timestamp currentTimestamp = new Timestamp(new Date().getTime());
+                        productContentInput.put("fromDate", currentTimestamp);
+                        productContentInput.put("userLogin", permUserLogin);
+                        // Call service to create product content
+                        Map<String, Object> resultProductContent = dispatcher.runSync("createProductContent", productContentInput);
+                        if (ServiceUtil.isSuccess(resultProductContent)) {
+                            // Process the result as needed
+                            System.out.println(resultProductContent);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultProductContent));
+                        }
                     } else {
-                        System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultContent));
+                        System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultDataResource));
                     }
-                    // Insert product content association
-                    productContentInput.put("contentId", contentId);
-                    productContentInput.put("productId", productId);
-                    productContentInput.put("productContentTypeId", "DESCRIPTION");
-                    Timestamp currentTimestamp = new Timestamp(new Date().getTime());
-                    productContentInput.put("fromDate", currentTimestamp);
-                    productContentInput.put("userLogin", permUserLogin);
-                    // Call service to create product content
-                    Map<String, Object> resultProductContent = dispatcher.runSync("createProductContent", productContentInput);
-                    if (ServiceUtil.isSuccess(resultProductContent)) {
-                        // Process the result as needed
-                        System.out.println(resultProductContent);
-                    } else {
-                        System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultProductContent));
-                    }
-                } else {
-                    System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultDataResource));
+
                 }
+                // Loop through each product extended information and insert content
+                for ( Map<String,String> productExtendedInformationMap: productExtendedInformation) {
+                    Map<String, Object> productExtendedInformationInput = new HashMap<>();
+                    Map<String, Object> productContentInput = new HashMap<>();
+                    Map<String, Object> productDataResource = new HashMap<>();
 
-            }
-            // Loop through each product extended information and insert content
-            for ( Map<String,String> productExtendedInformationMap: productExtendedInformation) {
-                Map<String, Object> productExtendedInformationInput = new HashMap<>();
-                Map<String, Object> productContentInput = new HashMap<>();
-                Map<String, Object> productDataResource = new HashMap<>();
+                    String contentId = getNextSequenceId(delegator, "ContentSeqId");
+                    // Prepare product extended information  values to insert
+                    productExtendedInformationInput.put("contentId", contentId);
+                    productExtendedInformationInput.put("contentName", productExtendedInformationMap.get("expiCode"));
+                    productExtendedInformationInput.put("localeString", productExtendedInformationMap.get("extendedProductLanguageCode"));
+                    productExtendedInformationInput.put("serviceName", productExtendedInformationMap.get("maintenanceTypeExtendedProduct"));
+                    productExtendedInformationInput.put("userLogin", permUserLogin);
 
-                String contentId = getNextSequenceId(delegator, "ContentSeqId");
-                // Prepare product extended information  values to insert
-                productExtendedInformationInput.put("contentId", contentId);
-                productExtendedInformationInput.put("contentName", productExtendedInformationMap.get("expiCode"));
-                productExtendedInformationInput.put("localeString", productExtendedInformationMap.get("extendedProductLanguageCode"));
-                productExtendedInformationInput.put("serviceName", productExtendedInformationMap.get("maintenanceTypeExtendedProduct"));
-                productExtendedInformationInput.put("userLogin", permUserLogin);
+                    productDataResource.put("textData",productExtendedInformationMap.get("extendedProductInformationValue"));
+                    productDataResource.put("userLogin", permUserLogin);
 
-                productDataResource.put("textData",productExtendedInformationMap.get("extendedProductInformationValue"));
-                productDataResource.put("userLogin", permUserLogin);
-
-                Map<String, Object> resultDataResource = dispatcher.runSync("createElectronicText", productDataResource);
-                if (ServiceUtil.isSuccess(resultDataResource)) {
-                    productExtendedInformationInput.put("dataResourceId",resultDataResource.get("dataResourceId"));
-                    // Call service to create content
-                    Map<String, Object> resultProductExtended = dispatcher.runSync("createContent", productExtendedInformationInput);
-                    if (ServiceUtil.isSuccess(resultProductExtended)) {
-                        // Process the result as needed
-                        System.out.println(resultProductExtended);
-                    } else {
-                        System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultProductExtended));
+                    Map<String, Object> resultDataResource = dispatcher.runSync("createElectronicText", productDataResource);
+                    if (ServiceUtil.isSuccess(resultDataResource)) {
+                        productExtendedInformationInput.put("dataResourceId",resultDataResource.get("dataResourceId"));
+                        // Call service to create content
+                        Map<String, Object> resultProductExtended = dispatcher.runSync("createContent", productExtendedInformationInput);
+                        if (ServiceUtil.isSuccess(resultProductExtended)) {
+                            // Process the result as needed
+                            System.out.println(resultProductExtended);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultProductExtended));
+                        }
+                        productContentInput.put("contentId", contentId);
+                        productContentInput.put("productId", productId);
+                        productContentInput.put("productContentTypeId", "PRODUCT_EXTENDED_IN");
+                        productContentInput.put("userLogin", permUserLogin);
+                        // Call service to create product content
+                        Map<String, Object> resultProductContent = dispatcher.runSync("createProductContent", productContentInput);
+                        if (ServiceUtil.isSuccess(resultProductContent)) {
+                            // Process the result as needed
+                            System.out.println(resultProductContent);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultProductContent));
+                        }
+                    }else {
+                        System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultDataResource));
                     }
-                    productContentInput.put("contentId", contentId);
-                    productContentInput.put("productId", productId);
-                    productContentInput.put("productContentTypeId", "PRODUCT_EXTENDED_IN");
-                    productContentInput.put("userLogin", permUserLogin);
-                    // Call service to create product content
-                    Map<String, Object> resultProductContent = dispatcher.runSync("createProductContent", productContentInput);
-                    if (ServiceUtil.isSuccess(resultProductContent)) {
-                        // Process the result as needed
-                        System.out.println(resultProductContent);
-                    } else {
-                        System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultProductContent));
-                    }
-                }else {
-                    System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultDataResource));
+
                 }
-
             }
-        }
-        catch (Exception e) {
-            System.out.println("Error calling service: " + e.getMessage());
+            catch (Exception e) {
+                System.out.println("Error calling service: " + e.getMessage());
+            }
         }
     }
-        }
 
     // Nested class to insert Product Attributes
     private static class InsertProductAttributes
@@ -711,286 +781,286 @@ public class ReadXmlData {
 
 
     // Nested class to insert part interchange values
-        private static class InsertPartInterchange{
+    private static class InsertPartInterchange{
         // Lists to store part interchange values and parent product ID
-            private List<Map<String,String>> partInterchangeValues;
-            private String productIdParent;
+        private List<Map<String,String>> partInterchangeValues;
+        private String productIdParent;
         // Constructor to initialize part interchange values and parent product ID
-            InsertPartInterchange(List<Map<String,String>> partInterchangeValues, String productIdParent)
-            {
-                this.partInterchangeValues = partInterchangeValues;
-                this.productIdParent = productIdParent;
-            }
+        InsertPartInterchange(List<Map<String,String>> partInterchangeValues, String productIdParent)
+        {
+            this.partInterchangeValues = partInterchangeValues;
+            this.productIdParent = productIdParent;
+        }
         // Method to insert part interchange values
-            private void insertPartInterchange()
-            {
-                try {
-                    Delegator delegator = DelegatorFactory.getDelegator("default");
-                    LocalDispatcher dispatcher = ServiceContainer.getLocalDispatcher("default", delegator);
-                    GenericValue permUserLogin = EntityQuery.use(delegator).from("UserLogin").where("userLoginId", "system").queryOne();
-                    Map<String, Object> productPartInput = new HashMap<>();
-                    Map<String, Object> productPartAssocInput = new HashMap<>();
-                    // Insert part interchange values
-                    for (Map<String,String> partInterchangeValueMap : partInterchangeValues) {
-                        String productId = getNextSequenceId(delegator, "ProductSeqId");
-                        productPartInput.put("productId", productId);
-                        productPartInput.put("brandName", partInterchangeValueMap.get("brandLabel"));
-                        productPartInput.put("internalName", partInterchangeValueMap.get("partNumber"));
-                        productPartInput.put("productName", partInterchangeValueMap.get("brandAAIAID"));
-                        productPartInput.put("comments", partInterchangeValueMap.get("typeCode"));
-                        productPartInput.put("productTypeId", "SUBASSEMBLY");
-                        productPartInput.put("userLogin",permUserLogin);
-                        // Call the service to create the new product
-                        Map<String, Object> resultProduct = dispatcher.runSync("createProduct", productPartInput);
-                        if (ServiceUtil.isSuccess(resultProduct)) {
-                            // Process the result as needed
-                            System.out.println(resultProduct);
-                        } else {
-                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultProduct));
-                        }
+        private void insertPartInterchange()
+        {
+            try {
+                Delegator delegator = DelegatorFactory.getDelegator("default");
+                LocalDispatcher dispatcher = ServiceContainer.getLocalDispatcher("default", delegator);
+                GenericValue permUserLogin = EntityQuery.use(delegator).from("UserLogin").where("userLoginId", "system").queryOne();
+                Map<String, Object> productPartInput = new HashMap<>();
+                Map<String, Object> productPartAssocInput = new HashMap<>();
+                // Insert part interchange values
+                for (Map<String,String> partInterchangeValueMap : partInterchangeValues) {
+                    String productId = getNextSequenceId(delegator, "ProductSeqId");
+                    productPartInput.put("productId", productId);
+                    productPartInput.put("brandName", partInterchangeValueMap.get("brandLabel"));
+                    productPartInput.put("internalName", partInterchangeValueMap.get("partNumber"));
+                    productPartInput.put("productName", partInterchangeValueMap.get("brandAAIAID"));
+                    productPartInput.put("comments", partInterchangeValueMap.get("typeCode"));
+                    productPartInput.put("productTypeId", "SUBASSEMBLY");
+                    productPartInput.put("userLogin",permUserLogin);
+                    // Call the service to create the new product
+                    Map<String, Object> resultProduct = dispatcher.runSync("createProduct", productPartInput);
+                    if (ServiceUtil.isSuccess(resultProduct)) {
+                        // Process the result as needed
+                        System.out.println(resultProduct);
+                    } else {
+                        System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultProduct));
+                    }
 
-                        // Create a product association between the new part and the parent product
-                        productPartAssocInput.put("productIdTo", productId);
-                        productPartAssocInput.put("productId",productIdParent);
-                        long currentTimeMillis = System.currentTimeMillis();
-                        Timestamp timestamp = new Timestamp(currentTimeMillis);
-                        productPartAssocInput.put("fromDate",timestamp);
-                        productPartAssocInput.put("productAssocTypeId","PRODUCT_ACCESSORY");
-                        productPartAssocInput.put("userLogin",permUserLogin);
-                        // Call the service to create the product association
-                        Map<String, Object> resultProductAssoc = dispatcher.runSync("createProductAssoc", productPartAssocInput);
-                        if (ServiceUtil.isSuccess(resultProductAssoc)) {
-                            System.out.println(resultProductAssoc);
-                        } else {
-                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultProductAssoc));
-                        }
+                    // Create a product association between the new part and the parent product
+                    productPartAssocInput.put("productIdTo", productId);
+                    productPartAssocInput.put("productId",productIdParent);
+                    long currentTimeMillis = System.currentTimeMillis();
+                    Timestamp timestamp = new Timestamp(currentTimeMillis);
+                    productPartAssocInput.put("fromDate",timestamp);
+                    productPartAssocInput.put("productAssocTypeId","PRODUCT_ACCESSORY");
+                    productPartAssocInput.put("userLogin",permUserLogin);
+                    // Call the service to create the product association
+                    Map<String, Object> resultProductAssoc = dispatcher.runSync("createProductAssoc", productPartAssocInput);
+                    if (ServiceUtil.isSuccess(resultProductAssoc)) {
+                        System.out.println(resultProductAssoc);
+                    } else {
+                        System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultProductAssoc));
                     }
                 }
-                catch (Exception e) {
-                    System.out.println("Error calling service: " + e.getMessage());
-                }
+            }
+            catch (Exception e) {
+                System.out.println("Error calling service: " + e.getMessage());
             }
         }
+    }
 
     // Nested class to insert digital file information
-        private static class InsertDigitalFileInformation
+    private static class InsertDigitalFileInformation
+    {
+        // Lists to store digital file information and product ID
+        private List<Map<String,String>> digitalValues;
+        private String productId;
+        // Constructor to initialize digital file information and product ID
+        InsertDigitalFileInformation(List<Map<String,String>> digitalValues, String productId)
         {
-            // Lists to store digital file information and product ID
-            private List<Map<String,String>> digitalValues;
-            private String productId;
-            // Constructor to initialize digital file information and product ID
-            InsertDigitalFileInformation(List<Map<String,String>> digitalValues, String productId)
-            {
-                this.digitalValues = digitalValues;
-                this.productId = productId;
-            }
-            // Method to insert digital file information
-                 private void insertDigitalInfo()
-                {
+            this.digitalValues = digitalValues;
+            this.productId = productId;
+        }
+        // Method to insert digital file information
+        private void insertDigitalInfo()
+        {
 
-                    try {
-                        Delegator delegator = DelegatorFactory.getDelegator("default");
-                        LocalDispatcher dispatcher = ServiceContainer.getLocalDispatcher("default", delegator);
-                        GenericValue permUserLogin = EntityQuery.use(delegator).from("UserLogin").where("userLoginId", "system").queryOne();
+            try {
+                Delegator delegator = DelegatorFactory.getDelegator("default");
+                LocalDispatcher dispatcher = ServiceContainer.getLocalDispatcher("default", delegator);
+                GenericValue permUserLogin = EntityQuery.use(delegator).from("UserLogin").where("userLoginId", "system").queryOne();
 
+                // Map's to hold the Digital File information data
+                Map<String, Object> productContentInput = new HashMap<>();
+                Map<String, Object> productDataResource = new HashMap<>();
+                // Prepare digital file information
+                for ( Map<String, String> digitalValue : digitalValues) {
+                    String contentId = getNextSequenceId(delegator, "ContentSeqId");
+
+                    //productDataResource Map  stored value in a map so that this values passed to createElectronicText service
+                    productDataResource.put("userLogin", permUserLogin);
+                    productDataResource.put("objectInfo",digitalValue.get("uri"));
+                    productDataResource.put("localeString",digitalValue.get("filePath"));
+                    // productContentInput Map to stored value in a map so that this values passed to createContent
+                    productContentInput.put("userLogin", permUserLogin);
+                    productContentInput.put("contentId",contentId);
+                    productContentInput.put("contentName",digitalValue.get("assetType"));
+                    productContentInput.put("serviceName",digitalValue.get("maintenanceTypeDigital"));
+                    productContentInput.put("localeString",digitalValue.get("fileType"));
+                    productContentInput.put("description",digitalValue.get("FileName"));
+
+                    // Call the service createElectronicText to insert values in dataResource
+                    Map<String, Object> resultProductDataResource= dispatcher.runSync("createElectronicText", productDataResource);
+                    if (ServiceUtil.isSuccess(resultProductDataResource)) {
+                        System.out.println(resultProductDataResource);
                         // Map's to hold the Digital File information data
-                        Map<String, Object> productContentInput = new HashMap<>();
-                        Map<String, Object> productDataResource = new HashMap<>();
-                        // Prepare digital file information
-                        for ( Map<String, String> digitalValue : digitalValues) {
-                            String contentId = getNextSequenceId(delegator, "ContentSeqId");
+                        Map<String, Object> digitalInfoInputRepresentation = new HashMap<>();
+                        Map<String, Object> digitalInfoInputBackground= new HashMap<>();
+                        Map<String, Object> digitalInfoInputLanguageCode= new HashMap<>();
+                        Map<String, Object> digitalInfoInputResolution= new HashMap<>();
+                        Map<String, Object> digitalInfoInputFileSize= new HashMap<>();
+                        Map<String, Object> digitalInfoInputAssetHeight= new HashMap<>();
+                        Map<String, Object> digitalInfoInputAssetWeight= new HashMap<>();
+                        Map<String, Object> digitalInfoInputAssetID= new HashMap<>();
+                        // Get dataResourceId when createElectronicText service successfully insert data in a entity.
+                        String dataResourceId = (String) resultProductDataResource.get("dataResourceId");
+                        // Insert dataResourceId in a productContentInput
+                        productContentInput.put("dataResourceId",dataResourceId);
+                        // Store Representation data which will be store in DataResourceAttribute entity
+                        digitalInfoInputRepresentation.put("userLogin", permUserLogin);
+                        digitalInfoInputRepresentation.put("dataResourceId",dataResourceId);
+                        digitalInfoInputRepresentation.put("attrName","Representation");
+                        digitalInfoInputRepresentation.put("attrValue",digitalValue.get("representation"));
+                        // Store Background data which will be store in DataResourceAttribute entity
+                        digitalInfoInputBackground.put("userLogin", permUserLogin);
+                        digitalInfoInputBackground.put("dataResourceId",dataResourceId);
+                        digitalInfoInputBackground.put("attrName","Background");
+                        digitalInfoInputBackground.put("attrValue",digitalValue.get("background"));
+                        // Store AssetID data which will be store in DataResourceAttribute entity
+                        digitalInfoInputAssetID.put("userLogin", permUserLogin);
+                        digitalInfoInputAssetID.put("dataResourceId",dataResourceId);
+                        digitalInfoInputAssetID.put("attrName","Asset ID");
+                        digitalInfoInputAssetID.put("attrValue",digitalValue.get("assetID"));
+                        // Store Resolution data which will be store in DataResourceAttribute entity
+                        digitalInfoInputLanguageCode.put("userLogin", permUserLogin);
+                        digitalInfoInputLanguageCode.put("dataResourceId",dataResourceId);
+                        digitalInfoInputLanguageCode.put("attrValue",digitalValue.get("languageCodeDigital"));
+                        digitalInfoInputLanguageCode.put("attrName","Language Code");
 
-                            //productDataResource Map  stored value in a map so that this values passed to createElectronicText service
-                            productDataResource.put("userLogin", permUserLogin);
-                            productDataResource.put("objectInfo",digitalValue.get("uri"));
-                            productDataResource.put("localeString",digitalValue.get("filePath"));
-                            // productContentInput Map to stored value in a map so that this values passed to createContent
-                            productContentInput.put("userLogin", permUserLogin);
-                            productContentInput.put("contentId",contentId);
-                            productContentInput.put("contentName",digitalValue.get("assetType"));
-                            productContentInput.put("serviceName",digitalValue.get("maintenanceTypeDigital"));
-                            productContentInput.put("localeString",digitalValue.get("fileType"));
-                            productContentInput.put("description",digitalValue.get("FileName"));
+                        // Store Resolution data which will be store in DataResourceAttribute entity
+                        digitalInfoInputResolution.put("userLogin", permUserLogin);
+                        digitalInfoInputResolution.put("dataResourceId",dataResourceId);
+                        digitalInfoInputResolution.put("attrValue",digitalValue.get("resolution"));
+                        digitalInfoInputResolution.put("attrName","Resolution");
 
-                            // Call the service createElectronicText to insert values in dataResource
-                            Map<String, Object> resultProductDataResource= dispatcher.runSync("createElectronicText", productDataResource);
-                            if (ServiceUtil.isSuccess(resultProductDataResource)) {
-                                System.out.println(resultProductDataResource);
-                                // Map's to hold the Digital File information data
-                                Map<String, Object> digitalInfoInputRepresentation = new HashMap<>();
-                                Map<String, Object> digitalInfoInputBackground= new HashMap<>();
-                                Map<String, Object> digitalInfoInputLanguageCode= new HashMap<>();
-                                Map<String, Object> digitalInfoInputResolution= new HashMap<>();
-                                Map<String, Object> digitalInfoInputFileSize= new HashMap<>();
-                                Map<String, Object> digitalInfoInputAssetHeight= new HashMap<>();
-                                Map<String, Object> digitalInfoInputAssetWeight= new HashMap<>();
-                                Map<String, Object> digitalInfoInputAssetID= new HashMap<>();
-                                // Get dataResourceId when createElectronicText service successfully insert data in a entity.
-                                String dataResourceId = (String) resultProductDataResource.get("dataResourceId");
-                                // Insert dataResourceId in a productContentInput
-                                productContentInput.put("dataResourceId",dataResourceId);
-                                // Store Representation data which will be store in DataResourceAttribute entity
-                                digitalInfoInputRepresentation.put("userLogin", permUserLogin);
-                                digitalInfoInputRepresentation.put("dataResourceId",dataResourceId);
-                                digitalInfoInputRepresentation.put("attrName","Representation");
-                                digitalInfoInputRepresentation.put("attrValue",digitalValue.get("representation"));
-                                // Store Background data which will be store in DataResourceAttribute entity
-                                digitalInfoInputBackground.put("userLogin", permUserLogin);
-                                digitalInfoInputBackground.put("dataResourceId",dataResourceId);
-                                digitalInfoInputBackground.put("attrName","Background");
-                                digitalInfoInputBackground.put("attrValue",digitalValue.get("background"));
-                                // Store AssetID data which will be store in DataResourceAttribute entity
-                                digitalInfoInputAssetID.put("userLogin", permUserLogin);
-                                digitalInfoInputAssetID.put("dataResourceId",dataResourceId);
-                                digitalInfoInputAssetID.put("attrName","Asset ID");
-                                digitalInfoInputAssetID.put("attrValue",digitalValue.get("assetID"));
-                                // Store Resolution data which will be store in DataResourceAttribute entity
-                                digitalInfoInputLanguageCode.put("userLogin", permUserLogin);
-                                digitalInfoInputLanguageCode.put("dataResourceId",dataResourceId);
-                                digitalInfoInputLanguageCode.put("attrValue",digitalValue.get("languageCodeDigital"));
-                                digitalInfoInputLanguageCode.put("attrName","Language Code");
+                        // Store FileSize data which will be store in DataResourceAttribute entity
+                        digitalInfoInputFileSize.put("userLogin", permUserLogin);
+                        digitalInfoInputFileSize.put("dataResourceId",dataResourceId);
+                        digitalInfoInputFileSize.put("attrValue",digitalValue.get("fileSize"));
+                        digitalInfoInputFileSize.put("attrName","File Size");
+                        // Store Asset Height data which will be store in DataResourceAttribute entity
+                        digitalInfoInputAssetHeight.put("userLogin", permUserLogin);
+                        digitalInfoInputAssetHeight.put("dataResourceId",dataResourceId);
+                        digitalInfoInputAssetHeight.put("attrValue",digitalValue.get("assetHeight"));
+                        digitalInfoInputAssetHeight.put("attrName","Asset Height");
+                        // Store Asset Width data which will be store in DataResourceAttribute entity
+                        digitalInfoInputAssetWeight.put("userLogin", permUserLogin);
+                        digitalInfoInputAssetWeight.put("dataResourceId",dataResourceId);
+                        digitalInfoInputAssetWeight.put("attrValue",digitalValue.get("assetWidth"));
+                        digitalInfoInputAssetWeight.put("attrName","Asset Weight");
 
-                                // Store Resolution data which will be store in DataResourceAttribute entity
-                                digitalInfoInputResolution.put("userLogin", permUserLogin);
-                                digitalInfoInputResolution.put("dataResourceId",dataResourceId);
-                                digitalInfoInputResolution.put("attrValue",digitalValue.get("resolution"));
-                                digitalInfoInputResolution.put("attrName","Resolution");
-
-                                // Store FileSize data which will be store in DataResourceAttribute entity
-                                digitalInfoInputFileSize.put("userLogin", permUserLogin);
-                                digitalInfoInputFileSize.put("dataResourceId",dataResourceId);
-                                digitalInfoInputFileSize.put("attrValue",digitalValue.get("fileSize"));
-                                digitalInfoInputFileSize.put("attrName","File Size");
-                                // Store Asset Height data which will be store in DataResourceAttribute entity
-                                digitalInfoInputAssetHeight.put("userLogin", permUserLogin);
-                                digitalInfoInputAssetHeight.put("dataResourceId",dataResourceId);
-                                digitalInfoInputAssetHeight.put("attrValue",digitalValue.get("assetHeight"));
-                                digitalInfoInputAssetHeight.put("attrName","Asset Height");
-                                // Store Asset Width data which will be store in DataResourceAttribute entity
-                                digitalInfoInputAssetWeight.put("userLogin", permUserLogin);
-                                digitalInfoInputAssetWeight.put("dataResourceId",dataResourceId);
-                                digitalInfoInputAssetWeight.put("attrValue",digitalValue.get("assetWidth"));
-                                digitalInfoInputAssetWeight.put("attrName","Asset Weight");
-
-                                // call the service to create the new Data Resource attributes
-                                Map<String, Object> resultDigitalAssetHeight = dispatcher.runSync("createDataResourceAttribute",digitalInfoInputAssetHeight);
-                                if (ServiceUtil.isSuccess(resultDigitalAssetHeight)) {
-                                    // Process the result as needed
-                                    System.out.println(resultDigitalAssetHeight);
-                                } else {
-                                    System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultDigitalAssetHeight));
-                                }
-                                // call the service to create the new Data Resource attributes
-                                Map<String, Object> resultDigitalAssetWeight = dispatcher.runSync("createDataResourceAttribute",digitalInfoInputAssetWeight);
-                                if (ServiceUtil.isSuccess(resultDigitalAssetWeight)) {
-                                    // Process the result as needed
-                                    System.out.println(resultDigitalAssetWeight);
-                                } else {
-                                    System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultDigitalAssetWeight));
-                                }
-
-                                // call the service to create the new Data Resource attributes
-                                Map<String, Object> resultDigitalFileSize = dispatcher.runSync("createDataResourceAttribute",digitalInfoInputFileSize);
-                                if (ServiceUtil.isSuccess(resultDigitalFileSize)) {
-                                    // Process the result as needed
-                                    System.out.println(resultDigitalFileSize);
-                                } else {
-                                    System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultDigitalFileSize));
-                                }
-
-                                // call the service to create the new Data Resource attributes
-                                Map<String, Object> resultDigitalResolution = dispatcher.runSync("createDataResourceAttribute",digitalInfoInputResolution);
-                                if (ServiceUtil.isSuccess(resultDigitalResolution)) {
-                                    // Process the result as needed
-                                    System.out.println(resultDigitalResolution);
-                                } else {
-                                    System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultDigitalResolution));
-                                }
-                                // call the service to create the new Data Resource attributes
-                                Map<String, Object> resultDigitalLanguageCode = dispatcher.runSync("createDataResourceAttribute",digitalInfoInputLanguageCode);
-                                if (ServiceUtil.isSuccess(resultDigitalLanguageCode)) {
-                                    // Process the result as needed
-                                    System.out.println(resultDigitalLanguageCode);
-                                } else {
-                                    System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultDigitalLanguageCode));
-                                }
-                                // call the service to create the new Data Resource attributes
-                                Map<String, Object> resultDigitalBackground = dispatcher.runSync("createDataResourceAttribute",digitalInfoInputBackground);
-                                if (ServiceUtil.isSuccess(resultDigitalBackground)) {
-                                    // Process the result as needed
-                                    System.out.println(resultDigitalBackground);
-                                } else {
-                                    System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultDigitalBackground));
-                                }
-                                // call the service to create the new Data Resource attributes
-                                Map<String, Object> resultDigitalRepresentation = dispatcher.runSync("createDataResourceAttribute",digitalInfoInputRepresentation);
-                                if (ServiceUtil.isSuccess(resultDigitalRepresentation)) {
-                                    // Process the result as needed
-                                    System.out.println(resultDigitalRepresentation);
-                                } else {
-                                    System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultDigitalRepresentation));
-                                }
-                                // call the service to create the new Data Resource attributes
-                                Map<String, Object> resultDigitalAssetId = dispatcher.runSync("createDataResourceAttribute", digitalInfoInputAssetID);
-                                if (ServiceUtil.isSuccess(resultDigitalAssetId)) {
-                                    System.out.println(resultDigitalAssetId);
-                                } else {
-                                    System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultDigitalAssetId));
-                                }
-                                // call the service to create the new Data Resource attributes
-                                Map<String, Object> resultProductContentInput = dispatcher.runSync("createContent", productContentInput);
-                                if (ServiceUtil.isSuccess(resultProductContentInput)) {
-                                    System.out.println(resultProductContentInput);
-                                } else {
-                                    System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultProductDataResource));
-                                }
-
-                                // Prepare a product content association for digital file information
-                                productContentInput.put("contentId", contentId);
-                                productContentInput.put("productId", productId);
-                                productContentInput.put("productContentTypeId", "DIGITAL_DOWNLOAD");
-                                productContentInput.put("userLogin", permUserLogin);
-                                // Call the service to create the product content association
-                                Map<String, Object> resultProductContent = dispatcher.runSync("createProductContent", productContentInput);
-                                if (ServiceUtil.isSuccess(resultProductContent)) {
-                                    // Process the result as needed
-                                    System.out.println(resultProductContent);
-                                } else {
-                                    System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultProductContent));
-                                }
-
-                            } else {
-                                System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultProductDataResource));
-                            }
+                        // call the service to create the new Data Resource attributes
+                        Map<String, Object> resultDigitalAssetHeight = dispatcher.runSync("createDataResourceAttribute",digitalInfoInputAssetHeight);
+                        if (ServiceUtil.isSuccess(resultDigitalAssetHeight)) {
+                            // Process the result as needed
+                            System.out.println(resultDigitalAssetHeight);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultDigitalAssetHeight));
                         }
-                    }
-                    catch (Exception e) {
-                        System.out.println("Error calling service: " + e.getMessage());
+                        // call the service to create the new Data Resource attributes
+                        Map<String, Object> resultDigitalAssetWeight = dispatcher.runSync("createDataResourceAttribute",digitalInfoInputAssetWeight);
+                        if (ServiceUtil.isSuccess(resultDigitalAssetWeight)) {
+                            // Process the result as needed
+                            System.out.println(resultDigitalAssetWeight);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultDigitalAssetWeight));
+                        }
+
+                        // call the service to create the new Data Resource attributes
+                        Map<String, Object> resultDigitalFileSize = dispatcher.runSync("createDataResourceAttribute",digitalInfoInputFileSize);
+                        if (ServiceUtil.isSuccess(resultDigitalFileSize)) {
+                            // Process the result as needed
+                            System.out.println(resultDigitalFileSize);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultDigitalFileSize));
+                        }
+
+                        // call the service to create the new Data Resource attributes
+                        Map<String, Object> resultDigitalResolution = dispatcher.runSync("createDataResourceAttribute",digitalInfoInputResolution);
+                        if (ServiceUtil.isSuccess(resultDigitalResolution)) {
+                            // Process the result as needed
+                            System.out.println(resultDigitalResolution);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultDigitalResolution));
+                        }
+                        // call the service to create the new Data Resource attributes
+                        Map<String, Object> resultDigitalLanguageCode = dispatcher.runSync("createDataResourceAttribute",digitalInfoInputLanguageCode);
+                        if (ServiceUtil.isSuccess(resultDigitalLanguageCode)) {
+                            // Process the result as needed
+                            System.out.println(resultDigitalLanguageCode);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultDigitalLanguageCode));
+                        }
+                        // call the service to create the new Data Resource attributes
+                        Map<String, Object> resultDigitalBackground = dispatcher.runSync("createDataResourceAttribute",digitalInfoInputBackground);
+                        if (ServiceUtil.isSuccess(resultDigitalBackground)) {
+                            // Process the result as needed
+                            System.out.println(resultDigitalBackground);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultDigitalBackground));
+                        }
+                        // call the service to create the new Data Resource attributes
+                        Map<String, Object> resultDigitalRepresentation = dispatcher.runSync("createDataResourceAttribute",digitalInfoInputRepresentation);
+                        if (ServiceUtil.isSuccess(resultDigitalRepresentation)) {
+                            // Process the result as needed
+                            System.out.println(resultDigitalRepresentation);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultDigitalRepresentation));
+                        }
+                        // call the service to create the new Data Resource attributes
+                        Map<String, Object> resultDigitalAssetId = dispatcher.runSync("createDataResourceAttribute", digitalInfoInputAssetID);
+                        if (ServiceUtil.isSuccess(resultDigitalAssetId)) {
+                            System.out.println(resultDigitalAssetId);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultDigitalAssetId));
+                        }
+                        // call the service to create the new Data Resource attributes
+                        Map<String, Object> resultProductContentInput = dispatcher.runSync("createContent", productContentInput);
+                        if (ServiceUtil.isSuccess(resultProductContentInput)) {
+                            System.out.println(resultProductContentInput);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultProductDataResource));
+                        }
+
+                        // Prepare a product content association for digital file information
+                        productContentInput.put("contentId", contentId);
+                        productContentInput.put("productId", productId);
+                        productContentInput.put("productContentTypeId", "DIGITAL_DOWNLOAD");
+                        productContentInput.put("userLogin", permUserLogin);
+                        // Call the service to create the product content association
+                        Map<String, Object> resultProductContent = dispatcher.runSync("createProductContent", productContentInput);
+                        if (ServiceUtil.isSuccess(resultProductContent)) {
+                            // Process the result as needed
+                            System.out.println(resultProductContent);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultProductContent));
+                        }
+
+                    } else {
+                        System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultProductDataResource));
                     }
                 }
+            }
+            catch (Exception e) {
+                System.out.println("Error calling service: " + e.getMessage());
+            }
         }
+    }
 
     // Nested class to check if a product ID exists
-        private static class CheckIfProductIdExists{
+    private static class CheckIfProductIdExists{
         // Store the product ID
-            private String productId;
+        private String productId;
         // Constructor to initialize the product ID
         CheckIfProductIdExists(String productId)
-            {
-                this.productId = productId;
-            }
-        // Method to check if the product ID exists
-            private Boolean checkIfProductIdExists() throws GenericEntityException {
-                Delegator delegator = DelegatorFactory.getDelegator("default");
-                // Query the database to find a product with the given product ID
-                GenericValue productValue = EntityQuery.use(delegator).from("Product").where("productId", productId).queryOne();
-                // Return true if the product exists, otherwise false
-                if (productValue != null) {
-                    return true;
-                }
-                return false;
-            }
+        {
+            this.productId = productId;
         }
+        // Method to check if the product ID exists
+        private Boolean checkIfProductIdExists() throws GenericEntityException {
+            Delegator delegator = DelegatorFactory.getDelegator("default");
+            // Query the database to find a product with the given product ID
+            GenericValue productValue = EntityQuery.use(delegator).from("Product").where("productId", productId).queryOne();
+            // Return true if the product exists, otherwise false
+            if (productValue != null) {
+                return true;
+            }
+            return false;
+        }
+    }
     // Nested class to update product
     public static class UpdateProductDetails{
         // Store the main product values in a map
@@ -1263,54 +1333,54 @@ public class ReadXmlData {
                     extendedProductInformationEXPICodeAndDataSourceId.put((String) contentValue.get("contentName"),(String) contentValue.get("dataResourceId"));
                 }
 
-            // Loop through each product extended information and update content
-            for ( Map<String,String> productExtendedInformationMap: productExtendedInformation) {
-                Map<String, Object> productExtendedInformationInput = new HashMap<>();
+                // Loop through each product extended information and update content
+                for ( Map<String,String> productExtendedInformationMap: productExtendedInformation) {
+                    Map<String, Object> productExtendedInformationInput = new HashMap<>();
 
-                // Prepare product extended information  values to insert
-                productExtendedInformationInput.put("contentName", productExtendedInformationMap.get("expiCode"));
-                productExtendedInformationInput.put("localeString", productExtendedInformationMap.get("extendedProductLanguageCode"));
-                productExtendedInformationInput.put("serviceName", productExtendedInformationMap.get("maintenanceTypeExtendedProduct"));
-                productExtendedInformationInput.put("userLogin", permUserLogin);
-                // if product extended information exist then update the value
-                if ( extendedProductInformationEXPICodeAndContentId.get(productExtendedInformationMap.get("expiCode"))!= null  && extendedProductInformationEXPICodeAndDataSourceId.get(productExtendedInformationMap.get("expiCode"))!=null) {
-                    // Put contentId in a productExtendedInformationInput map
-                    productExtendedInformationInput.put("contentId",extendedProductInformationEXPICodeAndContentId.get(productExtendedInformationMap.get("expiCode")));
-                    // Update the extended product content
-                    Map<String, Object> resultUpdateProductExtendedContent = dispatcher.runSync("updateContent", productExtendedInformationInput);
-                    if (ServiceUtil.isSuccess(resultUpdateProductExtendedContent)) {
-                        // Process the result as needed
-                        System.out.println(resultUpdateProductExtendedContent);
-                    } else {
-                        System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateProductExtendedContent));
+                    // Prepare product extended information  values to insert
+                    productExtendedInformationInput.put("contentName", productExtendedInformationMap.get("expiCode"));
+                    productExtendedInformationInput.put("localeString", productExtendedInformationMap.get("extendedProductLanguageCode"));
+                    productExtendedInformationInput.put("serviceName", productExtendedInformationMap.get("maintenanceTypeExtendedProduct"));
+                    productExtendedInformationInput.put("userLogin", permUserLogin);
+                    // if product extended information exist then update the value
+                    if ( extendedProductInformationEXPICodeAndContentId.get(productExtendedInformationMap.get("expiCode"))!= null  && extendedProductInformationEXPICodeAndDataSourceId.get(productExtendedInformationMap.get("expiCode"))!=null) {
+                        // Put contentId in a productExtendedInformationInput map
+                        productExtendedInformationInput.put("contentId",extendedProductInformationEXPICodeAndContentId.get(productExtendedInformationMap.get("expiCode")));
+                        // Update the extended product content
+                        Map<String, Object> resultUpdateProductExtendedContent = dispatcher.runSync("updateContent", productExtendedInformationInput);
+                        if (ServiceUtil.isSuccess(resultUpdateProductExtendedContent)) {
+                            // Process the result as needed
+                            System.out.println(resultUpdateProductExtendedContent);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateProductExtendedContent));
+                        }
+                        // Prepare and update electronic text input
+                        Map<String,Object> updateElectronicTextInput = new HashMap<>();
+                        updateElectronicTextInput.put("userLogin", permUserLogin);
+                        updateElectronicTextInput.put("textData",productExtendedInformationMap.get("extendedProductInformationValue"));
+                        updateElectronicTextInput.put("dataResourceId",extendedProductInformationEXPICodeAndDataSourceId.get(productExtendedInformationMap.get("expiCode")));
+
+                        // Update the electronic text
+                        Map<String, Object> resultUpdateProductExtendedInfoDescription = dispatcher.runSync("updateElectronicText", updateElectronicTextInput);
+                        if (ServiceUtil.isSuccess(resultUpdateProductExtendedInfoDescription)) {
+                            // Process the result as needed
+                            System.out.println(resultUpdateProductExtendedInfoDescription);
+                        } else {
+                            System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateProductExtendedInfoDescription));
+                        }
+
+                    }else // If product extended information does not exist then add new product extended information.
+                    {
+                        // List to store product description value
+                        List<Map<String,String>> productDescriptionList = new ArrayList<>();
+                        List<Map<String,String>> productExtendedList = new ArrayList<>();
+                        // Add productExtendedInformationMap in a List
+                        productExtendedList.add(productExtendedInformationMap);
+                        // Create InsertProductContent object to insert product extended information
+                        InsertProductContent insertProductContent = new InsertProductContent(productDescriptionList,productExtendedList,productId);
+                        insertProductContent.insertProductContent();
                     }
-                    // Prepare and update electronic text input
-                    Map<String,Object> updateElectronicTextInput = new HashMap<>();
-                    updateElectronicTextInput.put("userLogin", permUserLogin);
-                    updateElectronicTextInput.put("textData",productExtendedInformationMap.get("extendedProductInformationValue"));
-                    updateElectronicTextInput.put("dataResourceId",extendedProductInformationEXPICodeAndDataSourceId.get(productExtendedInformationMap.get("expiCode")));
-
-                    // Update the electronic text
-                    Map<String, Object> resultUpdateProductExtendedInfoDescription = dispatcher.runSync("updateElectronicText", updateElectronicTextInput);
-                    if (ServiceUtil.isSuccess(resultUpdateProductExtendedInfoDescription)) {
-                        // Process the result as needed
-                        System.out.println(resultUpdateProductExtendedInfoDescription);
-                    } else {
-                        System.out.println("Error calling service: " + ServiceUtil.getErrorMessage(resultUpdateProductExtendedInfoDescription));
-                    }
-
-                }else // If product extended information does not exist then add new product extended information.
-                {
-                    // List to store product description value
-                    List<Map<String,String>> productDescriptionList = new ArrayList<>();
-                    List<Map<String,String>> productExtendedList = new ArrayList<>();
-                    // Add productExtendedInformationMap in a List
-                    productExtendedList.add(productExtendedInformationMap);
-                    // Create InsertProductContent object to insert product extended information
-                    InsertProductContent insertProductContent = new InsertProductContent(productDescriptionList,productExtendedList,productId);
-                    insertProductContent.insertProductContent();
                 }
-            }
             }
             catch (Exception e) {
                 System.out.println("Error calling service: " + e.getMessage());
@@ -1368,8 +1438,8 @@ public class ReadXmlData {
                 for(GenericValue contentValue : contentValueList)
                 {
                     // Store value in a map
-                 mapToStoreContentIdAndFileName.put((String) contentValue.get("description"), (String) contentValue.get("contentId"));
-                 mapToStoreContentIdAndDataResourceId.put((String) contentValue.get("description"), (String) contentValue.get("dataResourceId"));
+                    mapToStoreContentIdAndFileName.put((String) contentValue.get("description"), (String) contentValue.get("contentId"));
+                    mapToStoreContentIdAndDataResourceId.put((String) contentValue.get("description"), (String) contentValue.get("dataResourceId"));
                 }
                 // Traverse Digital file information related values
                 for ( Map<String, String> digitalValue : digitalValues)
